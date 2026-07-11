@@ -1,0 +1,36 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --color-primary: #10b981; /* Emerald 500 */
+  --color-primary-dark: #059669; /* Emerald 600 */
+  --color-primary-light: #d1fae5; /* Emerald 100 */
+  --color-secondary: #0ea5e9; /* Sky 500 (for accents) */
+  --color-accent: #34d399; /* Emerald 400 */
+  --color-background: #f8fafc;
+  --color-dark-bg: #0f172a;
+
+  --shadow-3d: 0 10px 30px -10px rgba(16, 185, 129, 0.3);
+  --shadow-3d-hover: 0 20px 40px -10px rgba(16, 185, 129, 0.5);
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+
+  --font-heading: "Plus Jakarta Sans", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-arabic: "Amiri", serif;
+}
+
+@layer base {
+  body {
+    @apply font-body bg-background text-slate-800 antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-bold text-slate-900;
+  }
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(200%) skewX(-12deg);
+  }
+}

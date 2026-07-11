@@ -1,0 +1,1 @@
+<?php  = new \App\Http\Controllers\Api\Admin\SchoolProfileController(); echo json_encode(->show(5)->getData());

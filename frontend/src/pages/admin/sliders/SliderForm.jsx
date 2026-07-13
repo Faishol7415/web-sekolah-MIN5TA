@@ -5,6 +5,8 @@ import { Helmet } from 'react-helmet-async';
 import { FaSave, FaArrowLeft, FaSpinner, FaImage, FaUpload } from 'react-icons/fa';
 import api from '../../../api/axios';
 import Button from '../../../components/common/Button';
+import { useToast } from '../../../components/common/Toast';
+import ImageCropper from '../../../components/admin/ImageCropper';
 
 const SliderForm = () => {
   const { id } = useParams();
@@ -23,6 +25,10 @@ const SliderForm = () => {
   });
   const [error, setError] = useState('');
 
+  const toast = useToast();
+  const [cropImage, setCropImage] = useState(null);
+  const [cropAspect, setCropAspect] = useState(16 / 9);
+
   const { data: sliderData, isLoading: isLoadingSlider } = useQuery({
     queryKey: ['admin-slider', id],
     queryFn: async () => {
@@ -33,18 +39,18 @@ const SliderForm = () => {
   });
 
   useEffect(() => {
-    if (isEditMode && sliderData) {
+    if (sliderData) {
       setFormData({
         title: sliderData.title || '',
         subtitle: sliderData.subtitle || '',
         image: sliderData.image || '',
         button_text: sliderData.button_text || '',
         button_url: sliderData.button_url || '',
-        order: sliderData.order || 0,
-        is_active: !!sliderData.is_active
+        order: sliderData.order ?? 0,
+        is_active: sliderData.is_active === undefined ? true : !!sliderData.is_active
       });
     }
-  }, [isEditMode, sliderData]);
+  }, [sliderData]);
 
   const mutation = useMutation({
     mutationFn: (data) => {
@@ -55,10 +61,13 @@ const SliderForm = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-sliders'] });
+      toast.success(isEditMode ? 'Slider berhasil diperbarui!' : 'Slider berhasil ditambahkan!');
       navigate('/admin/sliders');
     },
     onError: (err) => {
-      setError(err.response?.data?.message || 'Gagal menyimpan slider.');
+      const msg = err.response?.data?.message || 'Gagal menyimpan slider.';
+      setError(msg);
+      toast.error(msg);
     }
   });
 
@@ -72,10 +81,11 @@ const SliderForm = () => {
       return response.data;
     },
     onSuccess: (data) => {
-      setFormData({ ...formData, image: data.path });
+      setFormData((prev) => ({ ...prev, image: data.path }));
+      toast.success('Gambar berhasil diunggah!');
     },
     onError: (err) => {
-      setError(err.response?.data?.message || 'Gagal mengunggah gambar.');
+      toast.error(err.response?.data?.message || 'Gagal mengunggah gambar.');
     }
   });
 
@@ -93,11 +103,22 @@ const SliderForm = () => {
     });
   };
 
-  const handleImageUpload = (e) => {
+  const handleImageSelect = (e) => {
     const file = e.target.files[0];
     if (file) {
-      uploadMutation.mutate(file);
+      const reader = new FileReader();
+      reader.onload = () => {
+        setCropImage(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
+    e.target.value = '';
+  };
+
+  const handleCropDone = (croppedBlob) => {
+    setCropImage(null);
+    const croppedFile = new File([croppedBlob], 'cropped-image.jpg', { type: 'image/jpeg' });
+    uploadMutation.mutate(croppedFile);
   };
 
   if (isEditMode && isLoadingSlider) {
@@ -109,6 +130,15 @@ const SliderForm = () => {
       <Helmet>
         <title>{isEditMode ? 'Edit Slider' : 'Tambah Slider'} | CMS MIN 5 Tulungagung</title>
       </Helmet>
+
+      {cropImage && (
+        <ImageCropper
+          imageSrc={cropImage}
+          aspect={cropAspect}
+          onCropDone={handleCropDone}
+          onCancel={() => setCropImage(null)}
+        />
+      )}
 
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div className="flex items-center gap-3">
@@ -213,7 +243,7 @@ const SliderForm = () => {
                     <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                        <label className="cursor-pointer bg-white text-slate-900 px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-100">
                         Ganti Gambar
-                        <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} />
+                        <input type="file" className="hidden" accept="image/*" onChange={handleImageSelect} />
                        </label>
                     </div>
                   </>
@@ -224,7 +254,7 @@ const SliderForm = () => {
                     <label className="cursor-pointer px-4 py-2 bg-primary/10 text-primary hover:bg-primary hover:text-white rounded-lg text-sm font-medium transition-colors flex items-center gap-2">
                       {uploadMutation.isPending ? <FaSpinner className="animate-spin" /> : <FaUpload />}
                       {uploadMutation.isPending ? 'Mengunggah...' : 'Pilih Gambar'}
-                      <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} disabled={uploadMutation.isPending} />
+                      <input type="file" className="hidden" accept="image/*" onChange={handleImageSelect} disabled={uploadMutation.isPending} />
                     </label>
                   </>
                 )}

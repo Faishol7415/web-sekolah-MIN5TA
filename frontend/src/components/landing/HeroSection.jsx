@@ -86,12 +86,17 @@ const HeroSection = () => {
                             {slide.button_text}
                           </Link>
                         )}
-                        <a 
-                          href="#berita"
+                        <button 
+                          onClick={() => {
+                            const element = document.getElementById('berita');
+                            if (element) {
+                              element.scrollIntoView({ behavior: 'smooth' });
+                            }
+                          }}
                           className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold rounded-full transition-all duration-300 border border-white/20 hover:border-white/40 shadow-glass"
                         >
                           Jelajahi Berita
-                        </a>
+                        </button>
                       </div>
                     </div>
 

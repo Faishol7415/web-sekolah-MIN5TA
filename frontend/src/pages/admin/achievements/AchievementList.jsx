@@ -6,6 +6,8 @@ import api from '../../../api/axios';
 import DataTable from '../../../components/admin/DataTable';
 import Modal from '../../../components/admin/Modal';
 import Button from '../../../components/common/Button';
+import { useToast } from '../../../components/common/Toast';
+import ImageCropper from '../../../components/admin/ImageCropper';
 
 const AchievementList = () => {
   const [page, setPage] = useState(1);
@@ -26,6 +28,9 @@ const AchievementList = () => {
   });
   const [formError, setFormError] = useState('');
   
+  const toast = useToast();
+  const [cropImage, setCropImage] = useState(null);
+  
   const queryClient = useQueryClient();
 
   // Fetch data
@@ -43,10 +48,13 @@ const AchievementList = () => {
     mutationFn: (newData) => api.post('/admin/achievements', newData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-achievements'] });
+      toast.success('Data prestasi berhasil ditambahkan!');
       closeModal();
     },
     onError: (error) => {
-      setFormError(error.response?.data?.message || 'Gagal menyimpan data prestasi');
+      const msg = error.response?.data?.message || 'Gagal menyimpan data prestasi';
+      setFormError(msg);
+      toast.error(msg);
     },
   });
 
@@ -55,10 +63,13 @@ const AchievementList = () => {
     mutationFn: ({ id, data }) => api.put(`/admin/achievements/${id}`, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-achievements'] });
+      toast.success('Data prestasi berhasil diubah!');
       closeModal();
     },
     onError: (error) => {
-      setFormError(error.response?.data?.message || 'Gagal mengubah data prestasi');
+      const msg = error.response?.data?.message || 'Gagal mengubah data prestasi';
+      setFormError(msg);
+      toast.error(msg);
     },
   });
 
@@ -67,7 +78,11 @@ const AchievementList = () => {
     mutationFn: (id) => api.delete(`/admin/achievements/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-achievements'] });
+      toast.success('Data prestasi berhasil dihapus!');
     },
+    onError: () => {
+      toast.error('Gagal menghapus data prestasi.');
+    }
   });
 
   // Upload Mutation
@@ -82,17 +97,31 @@ const AchievementList = () => {
     },
     onSuccess: (data) => {
       setFormData({ ...formData, image: data.path });
+      toast.success('Gambar berhasil diunggah!');
     },
     onError: (error) => {
-      setFormError(error.response?.data?.message || 'Gagal mengunggah gambar.');
+      const msg = error.response?.data?.message || 'Gagal mengunggah gambar.';
+      setFormError(msg);
+      toast.error(msg);
     }
   });
 
-  const handleImageUpload = (e) => {
+  const handleImageSelect = (e) => {
     const file = e.target.files[0];
     if (file) {
-      uploadMutation.mutate(file);
+      const reader = new FileReader();
+      reader.onload = () => {
+        setCropImage(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
+    e.target.value = '';
+  };
+
+  const handleCropDone = (croppedBlob) => {
+    setCropImage(null);
+    const croppedFile = new File([croppedBlob], 'cropped-image.jpg', { type: 'image/jpeg' });
+    uploadMutation.mutate(croppedFile);
   };
 
   const columns = [
@@ -210,6 +239,15 @@ const AchievementList = () => {
       <Helmet>
         <title>Kelola Prestasi | CMS MIN 5 Tulungagung</title>
       </Helmet>
+
+      {cropImage && (
+        <ImageCropper
+          imageSrc={cropImage}
+          aspect={4/3}
+          onCropDone={handleCropDone}
+          onCancel={() => setCropImage(null)}
+        />
+      )}
 
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>
@@ -364,7 +402,7 @@ const AchievementList = () => {
                   <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                      <label className="cursor-pointer bg-white text-slate-900 px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-100">
                       Ganti Foto
-                      <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} />
+                      <input type="file" className="hidden" accept="image/*" onChange={handleImageSelect} />
                      </label>
                   </div>
                 </>
@@ -375,7 +413,7 @@ const AchievementList = () => {
                   <label className="cursor-pointer px-3 py-1.5 bg-primary/10 text-primary hover:bg-primary hover:text-white rounded-lg text-sm font-medium transition-colors flex items-center gap-2">
                     {uploadMutation.isPending ? <FaSpinner className="animate-spin" /> : <FaUpload />}
                     {uploadMutation.isPending ? 'Mengunggah...' : 'Pilih Foto'}
-                    <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} disabled={uploadMutation.isPending} />
+                    <input type="file" className="hidden" accept="image/*" onChange={handleImageSelect} disabled={uploadMutation.isPending} />
                   </label>
                 </>
               )}

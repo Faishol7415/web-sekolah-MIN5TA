@@ -17,7 +17,8 @@ class CategoryController extends Controller
             $query->where('name', 'like', "%{$search}%");
         }
         
-        $categories = $query->orderBy('created_at', 'desc')->paginate(10);
+        $perPage = $request->get('per_page', 10);
+        $categories = $query->orderBy('created_at', 'desc')->paginate($perPage);
         return response()->json($categories);
     }
 
@@ -40,7 +41,7 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
-        return response()->json($category);
+        return response()->json(['data' => $category]);
     }
 
     public function update(Request $request, Category $category)

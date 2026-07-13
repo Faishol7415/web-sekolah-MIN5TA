@@ -7,6 +7,8 @@ import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import api from '../../../api/axios';
 import Button from '../../../components/common/Button';
+import { useToast } from '../../../components/common/Toast';
+import ImageCropper from '../../../components/admin/ImageCropper';
 
 const PostForm = () => {
   const { id } = useParams();
@@ -24,13 +26,17 @@ const PostForm = () => {
   });
   const [error, setError] = useState('');
 
+  const toast = useToast();
+  const [cropImage, setCropImage] = useState(null);
+  const [cropAspect, setCropAspect] = useState(16 / 9);
+
   // Fetch Categories for dropdown
   const { data: categories } = useQuery({
     queryKey: ['admin-categories-all'],
     queryFn: async () => {
-      // Get without pagination or large limit
       const response = await api.get('/admin/categories?per_page=100');
-      return response.data.data;
+      // CategoryController returns paginated format: {data: [...], current_page, ...}
+      return response.data.data || [];
     }
   });
 
@@ -45,7 +51,7 @@ const PostForm = () => {
   });
 
   useEffect(() => {
-    if (isEditMode && postData) {
+    if (postData) {
       setFormData({
         title: postData.title || '',
         category_id: postData.category_id || '',
@@ -55,7 +61,7 @@ const PostForm = () => {
         image: postData.image || ''
       });
     }
-  }, [isEditMode, postData]);
+  }, [postData]);
 
   // Mutations
   const mutation = useMutation({
@@ -67,10 +73,13 @@ const PostForm = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-posts'] });
+      toast.success(isEditMode ? 'Berita berhasil diperbarui!' : 'Berita berhasil ditambahkan!');
       navigate('/admin/berita');
     },
     onError: (err) => {
-      setError(err.response?.data?.message || 'Gagal menyimpan berita.');
+      const msg = err.response?.data?.message || 'Gagal menyimpan berita.';
+      setError(msg);
+      toast.error(msg);
     }
   });
 
@@ -104,18 +113,30 @@ const PostForm = () => {
       return response.data;
     },
     onSuccess: (data) => {
-      setFormData({ ...formData, image: data.path });
+      setFormData((prev) => ({ ...prev, image: data.path }));
+      toast.success('Gambar berhasil diunggah!');
     },
     onError: (err) => {
-      setError(err.response?.data?.message || 'Gagal mengunggah gambar.');
+      toast.error(err.response?.data?.message || 'Gagal mengunggah gambar.');
     }
   });
 
-  const handleImageUpload = (e) => {
+  const handleImageSelect = (e) => {
     const file = e.target.files[0];
     if (file) {
-      uploadMutation.mutate(file);
+      const reader = new FileReader();
+      reader.onload = () => {
+        setCropImage(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
+    e.target.value = '';
+  };
+
+  const handleCropDone = (croppedBlob) => {
+    setCropImage(null);
+    const croppedFile = new File([croppedBlob], 'cropped-image.jpg', { type: 'image/jpeg' });
+    uploadMutation.mutate(croppedFile);
   };
 
   if (isEditMode && isLoadingPost) {
@@ -127,6 +148,15 @@ const PostForm = () => {
       <Helmet>
         <title>{isEditMode ? 'Edit Berita' : 'Tulis Berita Baru'} | CMS MIN 5 Tulungagung</title>
       </Helmet>
+
+      {cropImage && (
+        <ImageCropper
+          imageSrc={cropImage}
+          aspect={cropAspect}
+          onCropDone={handleCropDone}
+          onCancel={() => setCropImage(null)}
+        />
+      )}
 
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div className="flex items-center gap-3">
@@ -273,7 +303,7 @@ const PostForm = () => {
                     <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                        <label className="cursor-pointer bg-white text-slate-900 px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-100">
                         Ganti Gambar
-                        <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} />
+                        <input type="file" className="hidden" accept="image/*" onChange={handleImageSelect} />
                        </label>
                     </div>
                   </>
@@ -284,7 +314,7 @@ const PostForm = () => {
                     <label className="cursor-pointer px-4 py-2 bg-primary/10 text-primary hover:bg-primary hover:text-white rounded-lg text-sm font-medium transition-colors flex items-center gap-2">
                       {uploadMutation.isPending ? <FaSpinner className="animate-spin" /> : <FaUpload />}
                       {uploadMutation.isPending ? 'Mengunggah...' : 'Pilih Gambar'}
-                      <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} disabled={uploadMutation.isPending} />
+                      <input type="file" className="hidden" accept="image/*" onChange={handleImageSelect} disabled={uploadMutation.isPending} />
                     </label>
                   </>
                 )}

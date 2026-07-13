@@ -5,9 +5,11 @@ import { Helmet } from 'react-helmet-async';
 import { FaPlus, FaEdit, FaTrash, FaSpinner, FaCheck, FaTimes, FaBook, FaEye } from 'react-icons/fa';
 import api from '../../../api/axios';
 import Button from '../../../components/common/Button';
+import { useToast } from '../../../components/common/Toast';
 
 const SchoolProfileList = () => {
   const queryClient = useQueryClient();
+  const toast = useToast();
   const [deleteId, setDeleteId] = useState(null);
   
   const { data: profiles, isLoading, error } = useQuery({
@@ -23,6 +25,11 @@ const SchoolProfileList = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-profiles'] });
       queryClient.invalidateQueries({ queryKey: ['public-profiles'] });
+      toast.success('Profil berhasil dihapus!');
+      setDeleteId(null);
+    },
+    onError: () => {
+      toast.error('Gagal menghapus profil.');
       setDeleteId(null);
     }
   });

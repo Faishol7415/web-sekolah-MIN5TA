@@ -29,7 +29,7 @@ const LatestNewsSection = () => {
   };
 
   return (
-    <section className="py-20 bg-slate-50 dark:bg-slate-900/50 transition-colors duration-300">
+    <section id="berita" className="py-20 bg-slate-50 dark:bg-slate-900/50 transition-colors duration-300">
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex flex-col md:flex-row justify-between items-end mb-12">
           <div className="max-w-2xl">

@@ -6,10 +6,12 @@ import { Link } from 'react-router-dom';
 import api from '../../../api/axios';
 import DataTable from '../../../components/admin/DataTable';
 import Button from '../../../components/common/Button';
+import { useToast } from '../../../components/common/Toast';
 
 const PostList = () => {
   const [page, setPage] = useState(1);
   const queryClient = useQueryClient();
+  const toast = useToast();
 
   // Fetch data
   const { data, isLoading, isError, refetch } = useQuery({
@@ -26,7 +28,11 @@ const PostList = () => {
     mutationFn: (id) => api.delete(`/admin/posts/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-posts'] });
+      toast.success('Berita berhasil dihapus!');
     },
+    onError: () => {
+      toast.error('Gagal menghapus berita.');
+    }
   });
 
   const handleDelete = (id) => {

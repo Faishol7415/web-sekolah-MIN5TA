@@ -5,9 +5,11 @@ import { Helmet } from 'react-helmet-async';
 import { FaPlus, FaEdit, FaTrash, FaSpinner, FaCheck, FaTimes } from 'react-icons/fa';
 import api from '../../../api/axios';
 import Button from '../../../components/common/Button';
+import { useToast } from '../../../components/common/Toast';
 
 const SliderList = () => {
   const queryClient = useQueryClient();
+  const toast = useToast();
   const [deleteId, setDeleteId] = useState(null);
   
   const { data: sliders, isLoading, error } = useQuery({
@@ -22,6 +24,11 @@ const SliderList = () => {
     mutationFn: (id) => api.delete(`/admin/sliders/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin-sliders'] });
+      toast.success('Slider berhasil dihapus!');
+      setDeleteId(null);
+    },
+    onError: () => {
+      toast.error('Gagal menghapus slider.');
       setDeleteId(null);
     }
   });

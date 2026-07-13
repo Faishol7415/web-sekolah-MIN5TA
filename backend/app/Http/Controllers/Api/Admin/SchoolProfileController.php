@@ -22,7 +22,7 @@ class SchoolProfileController extends Controller
         $validated = $request->validate([
             'section' => 'required|string|max:100|unique:school_profiles',
             'title' => 'required|string|max:255',
-            'content' => 'required|string',
+            'content' => 'nullable|string',
             'image' => 'nullable|string',
             'order' => 'integer',
             'is_active' => 'boolean'
@@ -44,14 +44,14 @@ class SchoolProfileController extends Controller
         $validated = $request->validate([
             'section' => 'required|string|max:100|unique:school_profiles,section,' . $schoolProfile->id,
             'title' => 'required|string|max:255',
-            'content' => 'required|string',
+            'content' => 'nullable|string',
             'image' => 'nullable|string',
             'order' => 'integer',
             'is_active' => 'boolean'
         ]);
 
         $schoolProfile->update($validated);
-        return response()->json(['data' => $schoolProfile, 'message' => 'Profil berhasil diperbarui']);
+        return response()->json(['data' => $schoolProfile->fresh(), 'message' => 'Profil berhasil diperbarui']);
     }
 
     public function destroy($id)

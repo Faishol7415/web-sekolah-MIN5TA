@@ -7,11 +7,14 @@ import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import api from '../../../api/axios';
 import Button from '../../../components/common/Button';
+import { useToast } from '../../../components/common/Toast';
+import ImageCropper from '../../../components/admin/ImageCropper';
 
 const SchoolProfileForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const toast = useToast();
   const isEditMode = !!id;
 
   const [formData, setFormData] = useState({
@@ -24,6 +27,10 @@ const SchoolProfileForm = () => {
   });
   const [error, setError] = useState('');
 
+  // Cropper state
+  const [cropImage, setCropImage] = useState(null);
+  const [cropAspect, setCropAspect] = useState(3 / 4);
+
   const { data: profileData, isLoading: isLoadingProfile } = useQuery({
     queryKey: ['admin-profile', id],
     queryFn: async () => {
@@ -34,17 +41,17 @@ const SchoolProfileForm = () => {
   });
 
   useEffect(() => {
-    if (isEditMode && profileData) {
+    if (profileData) {
       setFormData({
         section: profileData.section || 'principal',
         title: profileData.title || '',
         content: profileData.content || '',
         image: profileData.image || '',
-        order: profileData.order || 0,
-        is_active: !!profileData.is_active
+        order: profileData.order ?? 0,
+        is_active: profileData.is_active === undefined ? true : !!profileData.is_active
       });
     }
-  }, [isEditMode, profileData]);
+  }, [profileData]);
 
   const mutation = useMutation({
     mutationFn: (data) => {
@@ -59,27 +66,31 @@ const SchoolProfileForm = () => {
         queryClient.invalidateQueries({ queryKey: ['admin-profile', id] });
       }
       queryClient.invalidateQueries({ queryKey: ['public-profiles'] });
+      toast.success(isEditMode ? 'Konten berhasil diperbarui!' : 'Konten berhasil ditambahkan!');
       navigate('/admin/profil');
     },
     onError: (err) => {
-      setError(err.response?.data?.message || 'Gagal menyimpan profil.');
+      const msg = err.response?.data?.message || 'Gagal menyimpan profil.';
+      setError(msg);
+      toast.error(msg);
     }
   });
 
   const uploadMutation = useMutation({
     mutationFn: async (file) => {
-      const formData = new FormData();
-      formData.append('file', file);
-      const response = await api.post('/admin/upload', formData, {
+      const fd = new FormData();
+      fd.append('file', file);
+      const response = await api.post('/admin/upload', fd, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       return response.data;
     },
     onSuccess: (data) => {
-      setFormData({ ...formData, image: data.path });
+      setFormData((prev) => ({ ...prev, image: data.path }));
+      toast.success('Gambar berhasil diunggah!');
     },
     onError: (err) => {
-      setError(err.response?.data?.message || 'Gagal mengunggah gambar.');
+      toast.error(err.response?.data?.message || 'Gagal mengunggah gambar.');
     }
   });
 
@@ -104,11 +115,27 @@ const SchoolProfileForm = () => {
     });
   };
 
-  const handleImageUpload = (e) => {
+  // Open cropper when user selects an image
+  const handleImageSelect = (e) => {
     const file = e.target.files[0];
     if (file) {
-      uploadMutation.mutate(file);
+      const reader = new FileReader();
+      reader.onload = () => {
+        setCropImage(reader.result);
+        // Set aspect ratio based on section
+        setCropAspect(formData.section === 'principal' ? 3 / 4 : 16 / 9);
+      };
+      reader.readAsDataURL(file);
     }
+    // Reset input so same file can be selected again
+    e.target.value = '';
+  };
+
+  // After cropping, upload the cropped blob
+  const handleCropDone = (croppedBlob) => {
+    setCropImage(null);
+    const croppedFile = new File([croppedBlob], 'cropped-image.jpg', { type: 'image/jpeg' });
+    uploadMutation.mutate(croppedFile);
   };
 
   if (isEditMode && isLoadingProfile) {
@@ -120,6 +147,16 @@ const SchoolProfileForm = () => {
       <Helmet>
         <title>{isEditMode ? 'Edit Konten' : 'Tambah Konten'} | CMS MIN 5 Tulungagung</title>
       </Helmet>
+
+      {/* Image Cropper Modal */}
+      {cropImage && (
+        <ImageCropper
+          imageSrc={cropImage}
+          aspect={cropAspect}
+          onCropDone={handleCropDone}
+          onCancel={() => setCropImage(null)}
+        />
+      )}
 
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div className="flex items-center gap-3">
@@ -244,7 +281,7 @@ const SchoolProfileForm = () => {
                       <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                          <label className="cursor-pointer bg-white text-slate-900 px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-100">
                           Ganti Gambar
-                          <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} />
+                          <input type="file" className="hidden" accept="image/*" onChange={handleImageSelect} />
                          </label>
                       </div>
                     </>
@@ -255,7 +292,7 @@ const SchoolProfileForm = () => {
                       <label className="cursor-pointer px-4 py-2 bg-primary/10 text-primary hover:bg-primary hover:text-white rounded-lg text-sm font-medium transition-colors flex items-center gap-2">
                         {uploadMutation.isPending ? <FaSpinner className="animate-spin" /> : <FaUpload />}
                         {uploadMutation.isPending ? 'Mengunggah...' : 'Pilih Gambar'}
-                        <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} disabled={uploadMutation.isPending} />
+                        <input type="file" className="hidden" accept="image/*" onChange={handleImageSelect} disabled={uploadMutation.isPending} />
                       </label>
                     </>
                   )}

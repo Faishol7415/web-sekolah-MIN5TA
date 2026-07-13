@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -18,14 +20,26 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
+        $throttleKey = Str::transliterate(Str::lower($request->input('email')).'|'.$request->ip());
+
+        if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
+            $seconds = RateLimiter::availableIn($throttleKey);
+            throw ValidationException::withMessages([
+                'email' => ["Terlalu banyak percobaan login. Silakan coba lagi dalam {$seconds} detik."],
+            ]);
+        }
+
         $user = User::where('email', $request->email)->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
+            RateLimiter::hit($throttleKey, 60);
             throw ValidationException::withMessages([
                 'email' => ['Kredensial yang diberikan tidak cocok dengan data kami.'],
             ]);
         }
         
+        RateLimiter::clear($throttleKey);
+
         if (! $user->is_active) {
             throw ValidationException::withMessages([
                 'email' => ['Akun Anda tidak aktif.'],

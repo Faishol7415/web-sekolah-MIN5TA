@@ -100,7 +100,7 @@ const Login = () => {
                     value={formData.email}
                     onChange={handleChange}
                     className="pl-10 block w-full p-3 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary sm:text-sm transition-colors outline-none"
-                    placeholder="admin@min5tulungagung.sch.id"
+                    placeholder="Masukkan alamat email"
                   />
                 </div>
               </div>
@@ -120,7 +120,7 @@ const Login = () => {
                     value={formData.password}
                     onChange={handleChange}
                     className="pl-10 pr-10 block w-full p-3 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary sm:text-sm transition-colors outline-none"
-                    placeholder="••••••••"
+                    placeholder="Masukkan kata sandi"
                   />
                   <button
                     type="button"

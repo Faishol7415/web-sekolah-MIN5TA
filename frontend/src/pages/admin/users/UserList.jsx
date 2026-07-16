@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Helmet } from 'react-helmet-async';
-import { FaPlus, FaEdit, FaTrash, FaSpinner, FaUserCircle, FaShieldAlt } from 'react-icons/fa';
+import { FaPlus, FaEdit, FaTrash, FaSpinner, FaUserCircle, FaShieldAlt, FaEye, FaEyeSlash } from 'react-icons/fa';
 import api from '../../../api/axios';
 import DataTable from '../../../components/admin/DataTable';
 import Modal from '../../../components/admin/Modal';
@@ -12,6 +12,7 @@ const UserList = () => {
   const [page, setPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
   
   const { user: currentUser } = useAuth();
   const queryClient = useQueryClient();
@@ -138,6 +139,7 @@ const UserList = () => {
 
   const openModal = (item = null) => {
     setFormError('');
+    setShowPassword(false);
     if (item) {
       setEditingItem(item);
       setFormData({ 
@@ -259,13 +261,22 @@ const UserList = () => {
             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
               Kata Sandi {editingItem ? '(Kosongkan jika tidak diubah)' : <span className="text-red-500">*</span>}
             </label>
-            <input 
-              type="password"
-              value={formData.password}
-              onChange={(e) => setFormData({...formData, password: e.target.value})}
-              className="w-full p-2.5 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary"
-              placeholder="••••••••"
-            />
+            <div className="relative">
+              <input 
+                type={showPassword ? "text" : "password"}
+                value={formData.password}
+                onChange={(e) => setFormData({...formData, password: e.target.value})}
+                className="w-full p-2.5 pr-10 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary"
+                placeholder="••••••••"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -280,7 +291,7 @@ const UserList = () => {
                 disabled={editingItem && currentUser?.id === editingItem.id} // Cannot change own role
               >
                 <option value="admin">Administrator</option>
-                <option value="writer">Penulis/Author</option>
+                <option value="editor">Penulis/Author</option>
               </select>
             </div>
             

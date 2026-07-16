@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:5173'],
+    'allowed_origins' => ['*'], // Mengizinkan semua domain (termasuk localhost dan Vercel)
 
     'allowed_origins_patterns' => [],
 

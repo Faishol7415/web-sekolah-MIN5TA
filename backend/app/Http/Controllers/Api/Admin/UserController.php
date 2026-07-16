@@ -15,7 +15,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::latest()->paginate(10);
+        $users = User::with('roles')->latest()->paginate(10);
         return response()->json($users);
     }
 
@@ -28,15 +28,24 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
+            'role' => 'required|string|exists:roles,name',
+            'is_active' => 'boolean',
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
         
-        $user = User::create($validated);
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => $validated['password'],
+            'is_active' => $validated['is_active'] ?? true,
+        ]);
+
+        $user->assignRole($validated['role']);
 
         return response()->json([
             'message' => 'Pengguna berhasil ditambahkan',
-            'data' => $user
+            'data' => $user->load('roles')
         ], 201);
     }
 
@@ -57,19 +66,26 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'password' => 'nullable|string|min:8',
+            'role' => 'required|string|exists:roles,name',
+            'is_active' => 'boolean',
         ]);
 
+        $dataToUpdate = [
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'is_active' => $validated['is_active'] ?? true,
+        ];
+
         if (!empty($validated['password'])) {
-            $validated['password'] = Hash::make($validated['password']);
-        } else {
-            unset($validated['password']);
+            $dataToUpdate['password'] = Hash::make($validated['password']);
         }
 
-        $user->update($validated);
+        $user->update($dataToUpdate);
+        $user->syncRoles([$validated['role']]);
 
         return response()->json([
             'message' => 'Pengguna berhasil diperbarui',
-            'data' => $user
+            'data' => $user->load('roles')
         ]);
     }
 

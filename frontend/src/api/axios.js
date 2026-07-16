@@ -16,6 +16,19 @@ api.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+
+    // Method spoofing for shared hosting that blocks PUT/DELETE (403 Forbidden)
+    if (config.method === 'put' || config.method === 'delete') {
+      if (config.data instanceof FormData) {
+        config.data.append('_method', config.method.toUpperCase());
+      } else if (typeof config.data === 'object' && config.data !== null) {
+        config.data._method = config.method.toUpperCase();
+      } else {
+        config.data = { _method: config.method.toUpperCase() };
+      }
+      config.method = 'post';
+    }
+
     return config;
   },
   (error) => Promise.reject(error)

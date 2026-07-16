@@ -25,7 +25,7 @@ const Navbar = () => {
     { name: 'Profil', path: '/profil' },
     { name: 'Berita', path: '/berita' },
     { name: 'Prestasi', path: '/prestasi' },
-    { name: 'PMBM', path: 'https://script.google.com/macros/s/AKfycbyOWyUZDaERwzin_6Sk2TcBWg74rBiWd9CaT6kGOrINreP6mEDFT9XBgwkTHo4dUtFcpQ/exec', external: true },
+    { name: 'PMBM', path: 'https://sites.google.com/view/pmbmmin5ta/min-5-tulungagung', external: true },
     { name: 'Pelayanan PTSP', path: '/kontak' },
   ];
 

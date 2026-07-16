@@ -31,7 +31,7 @@ const Home = () => {
       </Helmet>
       
       {/* Removed container styling to let sections be full width */}
-      <div>
+      <div className="overflow-x-hidden w-full">
         <HeroSection />
         
         {profiles.map(profile => {

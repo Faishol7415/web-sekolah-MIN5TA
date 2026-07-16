@@ -33,7 +33,7 @@ const ContentSection = ({ profile }) => {
             )}
 
             <div 
-              className="prose prose-lg dark:prose-invert max-w-none text-slate-600 dark:text-slate-400 prose-headings:font-bold prose-headings:text-slate-800 dark:prose-headings:text-white prose-a:text-primary hover:prose-a:text-primary-dark mx-auto"
+              className="prose prose-lg dark:prose-invert max-w-none text-slate-600 dark:text-slate-400 prose-headings:font-bold prose-headings:text-slate-800 dark:prose-headings:text-white prose-a:text-primary hover:prose-a:text-primary-dark mx-auto overflow-hidden break-words [&_*]:max-w-full [&_*]:!whitespace-normal [&_table]:w-full [&_table]:overflow-x-auto [&_img]:max-w-full [&_img]:h-auto"
               dangerouslySetInnerHTML={{ __html: profile.content }}
             />
           </div>

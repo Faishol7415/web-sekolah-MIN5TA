@@ -25,11 +25,16 @@ const Button = ({
   const variantStyle = variants[variant] || variants.primary;
   const sizeStyle = sizes[size] || sizes.md;
   
+  const disabledStyle = (props.disabled || props.isLoading) ? 'opacity-50 cursor-not-allowed' : '';
+  
   return (
     <button 
-      className={`${baseStyle} ${variantStyle} ${sizeStyle} ${className}`}
+      className={`${baseStyle} ${variantStyle} ${sizeStyle} ${disabledStyle} ${className}`}
+      disabled={props.disabled || props.isLoading}
       {...props}
     >
+      {props.isLoading && !props.icon && <span className="mr-2 animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></span>}
+      {props.icon && <props.icon className={`mr-2 ${props.isLoading ? 'animate-spin' : ''}`} />}
       {children}
     </button>
   );

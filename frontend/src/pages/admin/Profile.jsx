@@ -10,7 +10,7 @@ import ImageCropper from '../../components/admin/ImageCropper';
 
 const Profile = () => {
   const { user, login } = useAuth();
-  const { showToast } = useToast();
+  const toast = useToast();
   const queryClient = useQueryClient();
 
   const [formData, setFormData] = useState({
@@ -33,7 +33,7 @@ const Profile = () => {
       return response.data;
     },
     onSuccess: (data) => {
-      showToast('success', 'Profil berhasil diperbarui!');
+      toast.success('Profil berhasil diperbarui!');
       
       // Update local storage and context with new user data
       const token = localStorage.getItem('auth_token');
@@ -51,9 +51,9 @@ const Profile = () => {
     onError: (error) => {
       if (error.response?.status === 422) {
         setErrors(error.response.data.errors);
-        showToast('error', 'Mohon periksa kembali isian form Anda.');
+        toast.error('Mohon periksa kembali isian form Anda.');
       } else {
-        showToast('error', error.response?.data?.message || 'Gagal memperbarui profil');
+        toast.error(error.response?.data?.message || 'Gagal memperbarui profil');
       }
     }
   });
@@ -92,7 +92,7 @@ const Profile = () => {
     const file = e.target.files[0];
     if (file) {
       if (file.size > 2 * 1024 * 1024) { // 2MB limit
-        showToast('error', 'Ukuran gambar maksimal 2MB');
+        toast.error('Ukuran gambar maksimal 2MB');
         return;
       }
       
@@ -121,9 +121,9 @@ const Profile = () => {
         ...prev,
         avatar: response.data.path
       }));
-      showToast('success', 'Foto profil berhasil diunggah!');
+      toast.success('Foto profil berhasil diunggah!');
     } catch (error) {
-      showToast('error', 'Gagal mengunggah foto profil');
+      toast.error('Gagal mengunggah foto profil');
     } finally {
       setIsUploading(false);
       setSelectedImage(null);

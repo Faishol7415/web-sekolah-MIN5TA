@@ -25,6 +25,8 @@ class SliderController extends Controller
             'image' => 'required|string',
             'button_text' => 'nullable|string|max:50',
             'button_url' => 'nullable|string|max:255',
+            'button2_text' => 'nullable|string|max:50',
+            'button2_url' => 'nullable|string|max:255',
             'order' => 'integer',
             'is_active' => 'boolean'
         ]);
@@ -46,6 +48,8 @@ class SliderController extends Controller
             'image' => 'required|string',
             'button_text' => 'nullable|string|max:50',
             'button_url' => 'nullable|string|max:255',
+            'button2_text' => 'nullable|string|max:50',
+            'button2_url' => 'nullable|string|max:255',
             'order' => 'integer',
             'is_active' => 'boolean'
         ]);

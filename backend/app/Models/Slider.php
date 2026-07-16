@@ -10,7 +10,7 @@ class Slider extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'title', 'subtitle', 'image', 'button_text', 'button_url', 'order', 'is_active'
+        'title', 'subtitle', 'image', 'button_text', 'button_url', 'button2_text', 'button2_url', 'order', 'is_active'
     ];
 
     protected $casts = [

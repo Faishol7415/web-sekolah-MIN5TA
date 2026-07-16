@@ -18,8 +18,9 @@ const SliderForm = () => {
     title: '',
     subtitle: '',
     image: '',
-    button_text: '',
     button_url: '',
+    button2_text: '',
+    button2_url: '',
     order: 0,
     is_active: true
   });
@@ -46,6 +47,8 @@ const SliderForm = () => {
         image: sliderData.image || '',
         button_text: sliderData.button_text || '',
         button_url: sliderData.button_url || '',
+        button2_text: sliderData.button2_text || '',
+        button2_url: sliderData.button2_url || '',
         order: sliderData.order ?? 0,
         is_active: sliderData.is_active === undefined ? true : !!sliderData.is_active
       });
@@ -217,6 +220,33 @@ const SliderForm = () => {
                     value={formData.button_url}
                     onChange={handleChange}
                     placeholder="Misal: /profil"
+                    className="w-full p-3 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary"
+                  />
+                </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6 pt-6 border-t border-slate-100 dark:border-slate-700">
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                    Teks Tombol Kedua (Opsional)
+                  </label>
+                  <input 
+                    type="text" 
+                    name="button2_text"
+                    value={formData.button2_text}
+                    onChange={handleChange}
+                    placeholder="Misal: Jelajahi Berita"
+                    className="w-full p-3 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                    Tautan Tombol Kedua (Opsional)
+                  </label>
+                  <input 
+                    type="text" 
+                    name="button2_url"
+                    value={formData.button2_url}
+                    onChange={handleChange}
+                    placeholder="Misal: #berita"
                     className="w-full p-3 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>

@@ -26,7 +26,7 @@ const HeroSection = () => {
   const displaySlides = slides && slides.length > 0 ? slides : [
     {
       id: 1,
-      image: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=2070&auto=format&fit=crop',
+      image: 'https://images.unsplash.com/photo-1584281729004-98ce7e284a1e?q=80&w=2070&auto=format&fit=crop',
       title: 'Selamat Datang di MIN 5 Tulungagung',
       subtitle: 'Mewujudkan Generasi Islami, Berprestasi, Berakhlakul Karimah.',
       button_text: 'Profil Madrasah',

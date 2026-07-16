@@ -132,7 +132,7 @@ const AchievementSection = () => {
                         <FaTrophy className="text-xl drop-shadow-sm" />
                       </div>
                       
-                      <h3 className="font-heading font-bold text-xl text-slate-800 dark:text-white mb-2 line-clamp-2">
+                      <h3 className="font-heading font-bold text-lg md:text-xl text-slate-800 dark:text-white mb-2 line-clamp-3 leading-snug">
                         {achievement.title}
                       </h3>
                       

@@ -82,7 +82,7 @@ const LatestNewsSection = () => {
                     <span className="flex items-center gap-1.5"><FaUser className="text-slate-400" /> {item.user?.name || 'Admin'}</span>
                   </div>
                   
-                  <h3 className="text-2xl font-bold text-slate-800 dark:text-white mb-4 line-clamp-2 group-hover:text-primary transition-colors">
+                  <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-slate-800 dark:text-white mb-4 line-clamp-3 group-hover:text-primary transition-colors leading-snug">
                     <Link to={`/berita/${item.slug}`}>{item.title}</Link>
                   </h3>
                   

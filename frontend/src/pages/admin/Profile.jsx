@@ -87,8 +87,13 @@ const Profile = () => {
         showToast('error', 'Ukuran gambar maksimal 2MB');
         return;
       }
-      setSelectedImage(file);
-      setShowCropper(true);
+      
+      const reader = new FileReader();
+      reader.onload = () => {
+        setSelectedImage(reader.result); // Pass data URL instead of File object
+        setShowCropper(true);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -302,13 +307,13 @@ const Profile = () => {
 
       {showCropper && selectedImage && (
         <ImageCropper
-          image={selectedImage}
-          onCrop={handleCropComplete}
+          imageSrc={selectedImage}
+          onCropDone={handleCropComplete}
           onCancel={() => {
             setShowCropper(false);
             setSelectedImage(null);
           }}
-          aspectRatio={1}
+          aspect={1}
         />
       )}
     </>

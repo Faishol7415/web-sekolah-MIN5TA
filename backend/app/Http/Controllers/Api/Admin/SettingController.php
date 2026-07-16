@@ -29,7 +29,10 @@ class SettingController extends Controller
             // but usually we just save whatever is passed.
             Setting::updateOrCreate(
                 ['key' => $key],
-                ['value' => $value]
+                [
+                    'value' => $value,
+                    'group' => 'general'
+                ]
             );
         }
 

@@ -79,12 +79,23 @@ const HeroSection = () => {
                       </p>
                       <div className="flex flex-wrap gap-4">
                         {slide.button_text && slide.button_url && (
-                          <Link 
-                            to={slide.button_url}
-                            className="px-8 py-4 bg-gradient-to-r from-primary to-accent hover:from-primary-dark hover:to-primary text-white font-bold rounded-full transition-all duration-300 shadow-3d hover:shadow-3d-hover hover:-translate-y-1"
-                          >
-                            {slide.button_text}
-                          </Link>
+                          slide.button_url.startsWith('http') ? (
+                            <a 
+                              href={slide.button_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="px-8 py-4 bg-gradient-to-r from-primary to-accent hover:from-primary-dark hover:to-primary text-white font-bold rounded-full transition-all duration-300 shadow-3d hover:shadow-3d-hover hover:-translate-y-1"
+                            >
+                              {slide.button_text}
+                            </a>
+                          ) : (
+                            <Link 
+                              to={slide.button_url}
+                              className="px-8 py-4 bg-gradient-to-r from-primary to-accent hover:from-primary-dark hover:to-primary text-white font-bold rounded-full transition-all duration-300 shadow-3d hover:shadow-3d-hover hover:-translate-y-1"
+                            >
+                              {slide.button_text}
+                            </Link>
+                          )
                         )}
                         {slide.button2_text && slide.button2_url && (
                           slide.button2_url.startsWith('#') ? (
@@ -100,6 +111,15 @@ const HeroSection = () => {
                             >
                               {slide.button2_text}
                             </button>
+                          ) : slide.button2_url.startsWith('http') ? (
+                            <a 
+                              href={slide.button2_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold rounded-full transition-all duration-300 border border-white/20 hover:border-white/40 shadow-glass"
+                            >
+                              {slide.button2_text}
+                            </a>
                           ) : (
                             <Link 
                               to={slide.button2_url}

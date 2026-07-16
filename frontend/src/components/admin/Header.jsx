@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { HiMenuAlt2, HiOutlineLogout, HiOutlineUser } from 'react-icons/hi';
 import { FaUserCircle } from 'react-icons/fa';
 import { useAuth } from '../../contexts/AuthContext';
+import { getFileUrl } from '../../api/axios';
 import { useNavigate, Link } from 'react-router-dom';
 
 const Header = ({ toggleSidebar }) => {
@@ -56,7 +57,7 @@ const Header = ({ toggleSidebar }) => {
             className="flex items-center gap-2 p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
           >
             {user?.avatar ? (
-              <img src={user.avatar} alt="Avatar" className="w-8 h-8 rounded-full object-cover border border-slate-200 dark:border-slate-700" />
+              <img src={getFileUrl(user.avatar)} alt="Avatar" className="w-8 h-8 rounded-full object-cover border border-slate-200 dark:border-slate-700" />
             ) : (
               <FaUserCircle className="w-8 h-8 text-slate-400" />
             )}

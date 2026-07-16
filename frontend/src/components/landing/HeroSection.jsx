@@ -20,6 +20,18 @@ const HeroSection = () => {
     }
   });
 
+  const { data: settings } = useQuery({
+    queryKey: ['public-settings'],
+    queryFn: async () => {
+      const response = await api.get('/settings');
+      return response.data;
+    }
+  });
+
+  const btn2Show = settings?.hero_btn2_show !== '0'; // Default to true if not set
+  const btn2Text = settings?.hero_btn2_text || 'Jelajahi Berita';
+  const btn2Url = settings?.hero_btn2_url || '#berita';
+
 
 
   // Fallback default slide if no data
@@ -86,17 +98,29 @@ const HeroSection = () => {
                             {slide.button_text}
                           </Link>
                         )}
-                        <button 
-                          onClick={() => {
-                            const element = document.getElementById('berita');
-                            if (element) {
-                              element.scrollIntoView({ behavior: 'smooth' });
-                            }
-                          }}
-                          className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold rounded-full transition-all duration-300 border border-white/20 hover:border-white/40 shadow-glass"
-                        >
-                          Jelajahi Berita
-                        </button>
+                        {btn2Show && (
+                          btn2Url.startsWith('#') ? (
+                            <button 
+                              onClick={() => {
+                                const elementId = btn2Url.replace('#', '');
+                                const element = document.getElementById(elementId);
+                                if (element) {
+                                  element.scrollIntoView({ behavior: 'smooth' });
+                                }
+                              }}
+                              className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold rounded-full transition-all duration-300 border border-white/20 hover:border-white/40 shadow-glass"
+                            >
+                              {btn2Text}
+                            </button>
+                          ) : (
+                            <Link 
+                              to={btn2Url}
+                              className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold rounded-full transition-all duration-300 border border-white/20 hover:border-white/40 shadow-glass"
+                            >
+                              {btn2Text}
+                            </Link>
+                          )
+                        )}
                       </div>
                     </div>
 

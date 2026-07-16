@@ -12,8 +12,12 @@ const Settings = () => {
     school_address: 'Dusun Pundensari, RT 01 RW 02, Desa/Kecamatan Rejotangan, Kabupaten Tulungagung, Jawa Timur 66293',
     school_email: 'min5tulungagung@gmail.com',
     school_phone: '+62 856-4583-2705',
+    school_phone: '+62 856-4583-2705',
     meta_title: 'MIN 5 Tulungagung | Website Resmi',
     meta_description: 'Website resmi MIN 5 Tulungagung. Madrasah Ibtidaiyah Negeri unggulan di Tulungagung.',
+    hero_btn2_text: 'Jelajahi Berita',
+    hero_btn2_url: '#berita',
+    hero_btn2_show: '1',
   });
   
   const [isSuccess, setIsSuccess] = useState(false);
@@ -55,9 +59,10 @@ const Settings = () => {
   });
 
   const handleChange = (e) => {
+    const value = e.target.type === 'checkbox' ? (e.target.checked ? '1' : '0') : e.target.value;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: value
     });
   };
 
@@ -199,6 +204,60 @@ const Settings = () => {
                 placeholder="Deskripsi singkat website untuk mesin pencari"
               ></textarea>
             </div>
+          </div>
+        </div>
+
+        {/* Hero Settings */}
+        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+          <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50">
+            <h3 className="font-bold text-slate-800 dark:text-white">Pengaturan Tombol Sekunder Beranda (Hero)</h3>
+          </div>
+          <div className="p-6 space-y-4">
+            <div className="flex items-center gap-3 mb-4">
+              <input 
+                type="checkbox" 
+                name="hero_btn2_show"
+                id="hero_btn2_show"
+                checked={formData.hero_btn2_show === '1'}
+                onChange={handleChange}
+                className="w-5 h-5 text-primary focus:ring-primary border-gray-300 rounded"
+              />
+              <label htmlFor="hero_btn2_show" className="text-sm font-medium text-slate-700 dark:text-slate-300 cursor-pointer">
+                Tampilkan Tombol Sekunder
+              </label>
+            </div>
+
+            {formData.hero_btn2_show === '1' && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in duration-300">
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                    Teks Tombol
+                  </label>
+                  <input 
+                    type="text" 
+                    name="hero_btn2_text"
+                    value={formData.hero_btn2_text}
+                    onChange={handleChange}
+                    className="w-full p-2.5 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="Contoh: Jelajahi Berita"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                    Tautan / URL Tombol
+                  </label>
+                  <input 
+                    type="text" 
+                    name="hero_btn2_url"
+                    value={formData.hero_btn2_url}
+                    onChange={handleChange}
+                    className="w-full p-2.5 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="Contoh: #berita"
+                  />
+                  <p className="text-xs text-slate-500 mt-1">Gunakan awalan <code>#</code> untuk gulir ke bawah halaman.</p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 

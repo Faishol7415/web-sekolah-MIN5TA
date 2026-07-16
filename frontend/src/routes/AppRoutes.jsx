@@ -14,6 +14,7 @@ const Contact = lazy(() => import('../pages/public/Contact'));
 
 const Dashboard = lazy(() => import('../pages/admin/Dashboard'));
 const Login = lazy(() => import('../pages/admin/Login'));
+const AdminProfile = lazy(() => import('../pages/admin/Profile'));
 
 const CategoryList = lazy(() => import('../pages/admin/categories/CategoryList'));
 const SliderList = lazy(() => import('../pages/admin/sliders/SliderList'));
@@ -58,6 +59,7 @@ const AppRoutes = () => {
           </ProtectedRoute>
         }>
           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="profile" element={<AdminProfile />} />
           <Route path="kategori" element={<CategoryList />} />
           <Route path="sliders" element={<SliderList />} />
           <Route path="sliders/tambah" element={<SliderForm />} />

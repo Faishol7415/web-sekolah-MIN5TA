@@ -76,7 +76,15 @@ const Profile = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    updateMutation.mutate(formData);
+    const dataToSubmit = { ...formData };
+    
+    // Jangan kirim field password jika kosong agar tidak terkena validasi min:8
+    if (!dataToSubmit.password) {
+      delete dataToSubmit.password;
+      delete dataToSubmit.password_confirmation;
+    }
+    
+    updateMutation.mutate(dataToSubmit);
   };
 
   // Image Upload Handlers

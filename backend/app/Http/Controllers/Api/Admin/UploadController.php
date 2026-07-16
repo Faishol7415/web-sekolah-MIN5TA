@@ -15,11 +15,16 @@ class UploadController extends Controller
         ]);
 
         if ($request->file('file')) {
-            $path = $request->file('file')->store('uploads', 'public');
-            $url = Storage::url($path);
+            $file = $request->file('file');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            
+            // Bypass Storage facade dan simpan langsung ke folder public
+            $file->move(public_path('storage/uploads'), $filename);
+            
+            $path = 'uploads/' . $filename;
             
             return response()->json([
-                'url' => url($url),
+                'url' => url('storage/' . $path),
                 'path' => $path
             ]);
         }

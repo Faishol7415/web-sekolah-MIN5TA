@@ -25,6 +25,7 @@ const Navbar = () => {
     { name: 'Profil', path: '/profil' },
     { name: 'Berita', path: '/berita' },
     { name: 'Prestasi', path: '/prestasi' },
+    { name: 'PMBM', path: 'https://script.google.com/macros/s/AKfycbyOWyUZDaERwzin_6Sk2TcBWg74rBiWd9CaT6kGOrINreP6mEDFT9XBgwkTHo4dUtFcpQ/exec', external: true },
     { name: 'Pelayanan PTSP', path: '/kontak' },
   ];
 
@@ -64,16 +65,27 @@ const Navbar = () => {
           <ul className="flex items-center gap-6">
             {navLinks.map((link) => (
               <li key={link.name}>
-                <Link 
-                  to={link.path}
-                  className={`font-medium transition-colors hover:text-primary ${
-                    isActive(link.path) 
-                      ? 'text-primary dark:text-secondary' 
-                      : 'text-slate-600 dark:text-slate-300'
-                  }`}
-                >
-                  {link.name}
-                </Link>
+                {link.external ? (
+                  <a 
+                    href={link.path}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-medium transition-colors hover:text-primary text-slate-600 dark:text-slate-300"
+                  >
+                    {link.name}
+                  </a>
+                ) : (
+                  <Link 
+                    to={link.path}
+                    className={`font-medium transition-colors hover:text-primary ${
+                      isActive(link.path) 
+                        ? 'text-primary dark:text-secondary' 
+                        : 'text-slate-600 dark:text-slate-300'
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                )}
               </li>
             ))}
           </ul>
@@ -105,16 +117,27 @@ const Navbar = () => {
           <ul className="flex flex-col gap-2">
             {navLinks.map((link) => (
               <li key={link.name}>
-                <Link 
-                  to={link.path}
-                  className={`block px-4 py-3 rounded-lg font-medium ${
-                    isActive(link.path)
-                      ? 'bg-primary/10 text-primary dark:bg-primary/20 dark:text-secondary'
-                      : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
-                  }`}
-                >
-                  {link.name}
-                </Link>
+                {link.external ? (
+                  <a 
+                    href={link.path}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block px-4 py-3 rounded-lg font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
+                  >
+                    {link.name}
+                  </a>
+                ) : (
+                  <Link 
+                    to={link.path}
+                    className={`block px-4 py-3 rounded-lg font-medium ${
+                      isActive(link.path)
+                        ? 'bg-primary/10 text-primary dark:bg-primary/20 dark:text-secondary'
+                        : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                )}
               </li>
             ))}
           </ul>

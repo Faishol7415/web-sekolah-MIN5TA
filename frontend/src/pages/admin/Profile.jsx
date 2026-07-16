@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Helmet } from 'react-helmet-async';
 import { FaSave, FaUser, FaLock, FaImage, FaUpload, FaSpinner } from 'react-icons/fa';
-import api, { getFileUrl } from '../../../api/axios';
-import Button from '../../../components/common/Button';
-import { useToast } from '../../../components/common/Toast';
-import { useAuth } from '../../../hooks/useAuth';
-import ImageCropper from '../../../components/admin/ImageCropper';
+import api, { getFileUrl } from '../../api/axios';
+import Button from '../../components/common/Button';
+import { useToast } from '../../components/common/Toast';
+import { useAuth } from '../../contexts/AuthContext';
+import ImageCropper from '../../components/admin/ImageCropper';
 
 const Profile = () => {
   const { user, login } = useAuth();

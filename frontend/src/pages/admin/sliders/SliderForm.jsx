@@ -3,7 +3,7 @@ import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Helmet } from 'react-helmet-async';
 import { FaSave, FaArrowLeft, FaSpinner, FaImage, FaUpload } from 'react-icons/fa';
-import api from '../../../api/axios';
+import api, { getFileUrl } from '../../../api/axios';
 import Button from '../../../components/common/Button';
 import { useToast } from '../../../components/common/Toast';
 import ImageCropper from '../../../components/admin/ImageCropper';
@@ -231,10 +231,9 @@ const SliderForm = () => {
                 {formData.image ? (
                   <>
                     {(() => {
-                      const baseUrl = import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:8000';
                       return (
                         <img 
-                          src={formData.image.startsWith('http') ? formData.image : `${baseUrl}/storage/${formData.image}`} 
+                          src={getFileUrl(formData.image)} 
                           alt="Slider" 
                           className="w-full h-40 object-cover rounded-lg"
                         />

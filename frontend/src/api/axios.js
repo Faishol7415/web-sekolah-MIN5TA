@@ -50,3 +50,11 @@ api.interceptors.response.use(
 );
 
 export default api;
+
+// Helper to get file URL through API route (bypasses cPanel static file issues)
+export const getFileUrl = (path) => {
+  if (!path) return '';
+  if (path.startsWith('http')) return path;
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+  return `${apiUrl}/files/${path}`;
+};

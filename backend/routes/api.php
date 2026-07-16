@@ -45,6 +45,17 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\Public'], function () {
     Route::post('/visitors', 'VisitorController@store');
 });
 
+// Serve uploaded files via API route (bypasses cPanel document root issues)
+Route::get('/files/{path}', function ($path) {
+    $filePath = public_path('storage/' . $path);
+    
+    if (!file_exists($filePath)) {
+        abort(404);
+    }
+    
+    return response()->file($filePath);
+})->where('path', '.*');
+
 // Admin API Routes
 Route::group([
     'prefix' => 'admin', 

@@ -1,15 +1,12 @@
 import { FaQuoteLeft, FaStar, FaMedal } from 'react-icons/fa';
 
+import { getFileUrl } from '../../api/axios';
+
 const AboutSection = ({ profile }) => {
-  const baseUrl = import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:8000';
 
   if (!profile || !profile.is_active) return null;
 
-  const imageUrl = profile.image
-    ? profile.image.startsWith('http')
-      ? profile.image
-      : `${baseUrl}/storage/${profile.image}`
-    : null;
+  const imageUrl = profile.image ? getFileUrl(profile.image) : null;
 
   return (
     <section className="relative py-20 md:py-24 bg-white dark:bg-slate-900 transition-colors duration-300">

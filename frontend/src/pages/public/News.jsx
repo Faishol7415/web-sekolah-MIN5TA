@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { FaCalendarAlt, FaUser, FaArrowRight } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import api from '../../api/axios';
+import api, { getFileUrl } from '../../api/axios';
 import Card from '../../components/common/Card';
 
 const News = () => {
@@ -23,9 +23,7 @@ const News = () => {
 
   const getImageUrl = (path) => {
     if (!path) return 'https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=2070&auto=format&fit=crop';
-    if (path.startsWith('http')) return path;
-    const baseUrl = import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:8000';
-    return `${baseUrl}/storage/${path}`;
+    return getFileUrl(path);
   };
 
   const formatDate = (dateString) => {

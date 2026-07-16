@@ -9,7 +9,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 import { useQuery } from '@tanstack/react-query';
-import api from '../../api/axios';
+import api, { getFileUrl } from '../../api/axios';
 
 const HeroSection = () => {
   const { data: slides, isLoading } = useQuery({
@@ -20,7 +20,7 @@ const HeroSection = () => {
     }
   });
 
-  const baseUrl = import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:8000';
+
 
   // Fallback default slide if no data
   const displaySlides = slides && slides.length > 0 ? slides : [
@@ -52,7 +52,7 @@ const HeroSection = () => {
         className="w-full h-full"
       >
         {displaySlides.map((slide) => {
-          const imgUrl = slide.image?.startsWith('http') ? slide.image : `${baseUrl}/storage/${slide.image}`;
+          const imgUrl = getFileUrl(slide.image);
           return (
           <SwiperSlide key={slide.id}>
             <div className="relative w-full h-full">

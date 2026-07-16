@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Helmet } from 'react-helmet-async';
 import { FaPlus, FaEdit, FaTrash, FaSpinner, FaCheck, FaTimes } from 'react-icons/fa';
-import api from '../../../api/axios';
+import api, { getFileUrl } from '../../../api/axios';
 import Button from '../../../components/common/Button';
 import { useToast } from '../../../components/common/Toast';
 
@@ -79,8 +79,7 @@ const SliderList = () => {
               </thead>
               <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
                 {sliders?.map((slider) => {
-                  const baseUrl = import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:8000';
-                  const imgUrl = slider.image.startsWith('http') ? slider.image : `${baseUrl}/storage/${slider.image}`;
+                  const imgUrl = getFileUrl(slider.image);
                   
                   return (
                     <tr key={slider.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">

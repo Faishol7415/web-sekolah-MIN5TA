@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { FaTrophy, FaMedal, FaSpinner, FaCalendarAlt, FaUserGraduate, FaAward } from 'react-icons/fa';
 import { useQuery } from '@tanstack/react-query';
-import api from '../../api/axios';
+import api, { getFileUrl } from '../../api/axios';
 
 const Achievement = () => {
   const { data: achievements, isLoading, error } = useQuery({
@@ -12,7 +12,7 @@ const Achievement = () => {
     }
   });
 
-  const baseUrl = import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:8000';
+
 
   if (isLoading) {
     return (
@@ -50,7 +50,7 @@ const Achievement = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
               {achievements.map((item) => {
                 const imgUrl = item.image 
-                  ? (item.image.startsWith('http') ? item.image : `${baseUrl}/storage/${item.image}`) 
+                  ? getFileUrl(item.image) 
                   : 'https://images.unsplash.com/photo-1567057419565-4349c49d8a04?q=80&w=2072&auto=format&fit=crop';
                   
                 const rankText = (item.rank || '').toLowerCase();

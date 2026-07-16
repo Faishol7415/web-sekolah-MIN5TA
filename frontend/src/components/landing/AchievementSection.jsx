@@ -2,7 +2,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
 import { FaTrophy, FaMedal, FaCalendarAlt, FaUserGraduate, FaAward } from 'react-icons/fa';
 import { useQuery } from '@tanstack/react-query';
-import api from '../../api/axios';
+import api, { getFileUrl } from '../../api/axios';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -17,7 +17,7 @@ const AchievementSection = () => {
     }
   });
 
-  const baseUrl = import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:8000';
+
 
   // Dummy fallback if no data from API yet for visual testing
   const displayAchievements = achievements && achievements.length > 0 ? achievements : [
@@ -92,7 +92,7 @@ const AchievementSection = () => {
           >
             {displayAchievements.map((achievement) => {
               const imgUrl = achievement.image 
-                ? (achievement.image.startsWith('http') ? achievement.image : `${baseUrl}/storage/${achievement.image}`) 
+                ? getFileUrl(achievement.image) 
                 : 'https://images.unsplash.com/photo-1567057419565-4349c49d8a04?q=80&w=2072&auto=format&fit=crop';
               
               const rankText = (achievement.rank || '').toLowerCase();

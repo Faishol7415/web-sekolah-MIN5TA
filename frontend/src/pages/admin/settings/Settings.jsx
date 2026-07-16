@@ -44,11 +44,13 @@ const Settings = () => {
     },
     onSuccess: () => {
       setIsSuccess(true);
-      setTimeout(() => setIsSuccess(false), 3000);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(() => setIsSuccess(false), 5000);
       queryClient.invalidateQueries({ queryKey: ['admin-settings'] });
     },
     onError: () => {
       setError('Gagal menyimpan pengaturan.');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   });
 

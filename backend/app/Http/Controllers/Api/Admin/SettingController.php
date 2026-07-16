@@ -9,42 +9,32 @@ use Illuminate\Http\Request;
 class SettingController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of settings as a key-value object.
      */
     public function index()
     {
-        //
+        $settings = Setting::all()->pluck('value', 'key')->toArray();
+        return response()->json($settings);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Update or create multiple settings at once.
      */
-    public function store(Request $request)
+    public function batchUpdate(Request $request)
     {
-        //
-    }
+        $data = $request->all();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Setting $setting)
-    {
-        //
-    }
+        foreach ($data as $key => $value) {
+            // Null values can be saved as empty strings if needed, 
+            // but usually we just save whatever is passed.
+            Setting::updateOrCreate(
+                ['key' => $key],
+                ['value' => $value]
+            );
+        }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Setting $setting)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Setting $setting)
-    {
-        //
+        return response()->json([
+            'message' => 'Settings updated successfully'
+        ]);
     }
 }

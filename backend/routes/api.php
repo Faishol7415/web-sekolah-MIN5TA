@@ -66,6 +66,7 @@ Route::group([
     Route::get('/dashboard', 'DashboardController@index');
     
     // CRUD Endpoints
+    Route::post('/settings/batch', 'SettingController@batchUpdate');
     Route::apiResource('settings', 'SettingController');
     Route::apiResource('sliders', 'SliderController');
     Route::apiResource('school-profiles', 'SchoolProfileController');

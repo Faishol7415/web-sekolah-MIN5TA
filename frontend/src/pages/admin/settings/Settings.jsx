@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Helmet } from 'react-helmet-async';
 import { FaSave, FaSpinner, FaGlobe, FaMapMarkerAlt, FaPhone, FaBuilding } from 'react-icons/fa';
@@ -21,25 +21,26 @@ const Settings = () => {
   
   const queryClient = useQueryClient();
 
-  // In a real application, you would fetch these settings from the API
-  const { isLoading } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['admin-settings'],
     queryFn: async () => {
-      // Mocking fetch settings
-      // const response = await api.get('/admin/settings');
-      // return response.data;
-      return {};
-    },
-    onSuccess: (data) => {
-      // If data is array of key-value pairs, reduce to object here
+      const response = await api.get('/admin/settings');
+      return response.data;
     }
   });
 
+  useEffect(() => {
+    if (data && Object.keys(data).length > 0) {
+      setFormData(prev => ({
+        ...prev,
+        ...data
+      }));
+    }
+  }, [data]);
+
   const mutation = useMutation({
     mutationFn: async (data) => {
-      // Mocking save settings
-      // return api.post('/admin/settings/batch', data);
-      return new Promise(resolve => setTimeout(resolve, 800));
+      return api.post('/admin/settings/batch', data);
     },
     onSuccess: () => {
       setIsSuccess(true);

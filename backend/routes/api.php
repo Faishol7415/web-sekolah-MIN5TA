@@ -56,6 +56,22 @@ Route::get('/files/{path}', function ($path) {
     return response()->file($filePath);
 })->where('path', '.*');
 
+Route::get('/migrate', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Database berhasil di-migrate!',
+            'output' => \Illuminate\Support\Facades\Artisan::output()
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+});
+
 // Admin API Routes
 Route::group([
     'prefix' => 'admin', 

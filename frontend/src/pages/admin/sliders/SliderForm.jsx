@@ -222,6 +222,7 @@ const SliderForm = () => {
                     placeholder="Misal: /profil"
                     className="w-full p-3 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary"
                   />
+                </div>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6 pt-6 border-t border-slate-100 dark:border-slate-700">

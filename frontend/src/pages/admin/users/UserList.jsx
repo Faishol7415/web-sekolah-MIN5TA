@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Helmet } from 'react-helmet-async';
 import { FaPlus, FaEdit, FaTrash, FaSpinner, FaUserCircle, FaShieldAlt, FaEye, FaEyeSlash } from 'react-icons/fa';
-import api from '../../../api/axios';
+import api, { getFileUrl } from '../../../api/axios';
 import DataTable from '../../../components/admin/DataTable';
 import Modal from '../../../components/admin/Modal';
 import Button from '../../../components/common/Button';
@@ -75,7 +75,7 @@ const UserList = () => {
       render: (row) => (
         <div className="flex items-center gap-3">
           {row.avatar ? (
-            <img src={row.avatar} alt={row.name} className="w-10 h-10 rounded-full object-cover border border-slate-200" />
+            <img src={getFileUrl(row.avatar)} alt={row.name} className="w-10 h-10 rounded-full object-cover border border-slate-200" />
           ) : (
             <FaUserCircle className="w-10 h-10 text-slate-300" />
           )}
@@ -267,7 +267,7 @@ const UserList = () => {
                 value={formData.password}
                 onChange={(e) => setFormData({...formData, password: e.target.value})}
                 className="w-full p-2.5 pr-10 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-primary"
-                placeholder="••••••••"
+                placeholder={editingItem ? "Ketik sandi baru..." : "Ketik sandi..."}
               />
               <button
                 type="button"
@@ -301,11 +301,14 @@ const UserList = () => {
                   type="checkbox"
                   checked={formData.is_active}
                   onChange={(e) => setFormData({...formData, is_active: e.target.checked})}
-                  className="w-4 h-4 text-primary focus:ring-primary border-slate-300 rounded"
-                  disabled={editingItem && currentUser?.id === editingItem.id} // Cannot deactivate oneself
+                  className="w-5 h-5 rounded text-primary focus:ring-primary border-slate-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={editingItem && currentUser?.id === editingItem.id}
                 />
                 <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Akun Aktif</span>
               </label>
+              {editingItem && currentUser?.id === editingItem.id && (
+                <span className="text-[10px] text-slate-500 mt-1">Anda tidak dapat menonaktifkan akun sendiri</span>
+              )}
             </div>
           </div>
 

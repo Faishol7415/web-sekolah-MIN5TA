@@ -49,6 +49,8 @@ const Navbar = () => {
             src="/logo-min5.png" 
             alt="Logo Kemenag" 
             className="w-10 h-10 object-contain drop-shadow-md"
+            width="40"
+            height="40"
           />
           <div>
             <h1 className="font-heading font-bold text-lg leading-tight dark:text-white text-slate-800">

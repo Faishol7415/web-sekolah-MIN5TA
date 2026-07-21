@@ -78,7 +78,9 @@ const HeroSection = () => {
                       <img 
                         src="/logo-min5.png" 
                         alt="Logo MIN 5" 
-                        className="h-10 lg:h-12 mb-2 drop-shadow-md group-hover:scale-110 transition-transform duration-500" 
+                        className="h-10 lg:h-12 w-auto mb-2 drop-shadow-md group-hover:scale-110 transition-transform duration-500" 
+                        width="48"
+                        height="48"
                       />
                       <h3 className="font-extrabold text-xs lg:text-sm text-center leading-tight bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400 drop-shadow-sm">
                         Terakreditasi A

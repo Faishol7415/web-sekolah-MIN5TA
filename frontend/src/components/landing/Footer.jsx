@@ -22,6 +22,8 @@ const Footer = () => {
                   src="/logo-min5.png" 
                   alt="Logo Kemenag" 
                   className="w-full h-full object-contain drop-shadow-sm"
+                  width="40"
+                  height="40"
                 />
               </div>
               <div>

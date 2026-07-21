@@ -109,6 +109,8 @@ const AboutSection = ({ profile }) => {
                 src="/logo-min5.png"
                 alt="Kemenag"
                 className="h-8 w-8 object-contain flex-shrink-0"
+                width="32"
+                height="32"
               />
               <div className="w-px h-8 bg-slate-300 dark:bg-slate-600 flex-shrink-0" />
               <div>

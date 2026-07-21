@@ -65,97 +65,92 @@ const HeroSection = () => {
               
               {/* Overlay */}
               <div className="absolute inset-0 bg-gradient-to-tr from-slate-900/90 via-slate-900/70 to-primary-dark/40 flex items-center">
-                <div className="container mx-auto px-6 md:px-12 pt-20">
-                  <div className="max-w-4xl grid grid-cols-1 md:grid-cols-12 gap-8 items-center animate-in slide-in-from-bottom-10 fade-in duration-1000 fill-mode-both">
-                    <div className="md:col-span-8">
-                      <div className="inline-block px-4 py-1.5 bg-primary/20 backdrop-blur-md text-primary-light border border-primary/30 rounded-full text-sm font-bold mb-6 uppercase tracking-wider shadow-lg">
-                        Sekolah Berstandar Nasional
-                      </div>
-                      <h2 className="text-4xl md:text-5xl lg:text-7xl font-heading font-extrabold text-white mb-6 leading-tight drop-shadow-2xl">
-                        {slide.title}
-                      </h2>
-                      <p className="text-lg md:text-xl text-slate-200 mb-10 max-w-2xl drop-shadow-md">
-                        {slide.subtitle}
-                      </p>
-                      <div className="flex flex-wrap gap-4">
-                        {slide.button_text && slide.button_url && (
-                          slide.button_url.startsWith('http') ? (
-                            <a 
-                              href={slide.button_url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="px-8 py-4 bg-gradient-to-r from-primary to-accent hover:from-primary-dark hover:to-primary text-white font-bold rounded-full transition-all duration-300 shadow-3d hover:shadow-3d-hover hover:-translate-y-1"
-                            >
-                              {slide.button_text}
-                            </a>
-                          ) : (
-                            <Link 
-                              to={slide.button_url}
-                              className="px-8 py-4 bg-gradient-to-r from-primary to-accent hover:from-primary-dark hover:to-primary text-white font-bold rounded-full transition-all duration-300 shadow-3d hover:shadow-3d-hover hover:-translate-y-1"
-                            >
-                              {slide.button_text}
-                            </Link>
-                          )
-                        )}
-                        {slide.button2_text && slide.button2_url && (
-                          slide.button2_url.startsWith('#') ? (
-                            <button 
-                              onClick={() => {
-                                const elementId = slide.button2_url.replace('#', '');
-                                const element = document.getElementById(elementId);
-                                if (element) {
-                                  element.scrollIntoView({ behavior: 'smooth' });
-                                }
-                              }}
-                              className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold rounded-full transition-all duration-300 border border-white/20 hover:border-white/40 shadow-glass"
-                            >
-                              {slide.button2_text}
-                            </button>
-                          ) : slide.button2_url.startsWith('http') ? (
-                            <a 
-                              href={slide.button2_url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold rounded-full transition-all duration-300 border border-white/20 hover:border-white/40 shadow-glass"
-                            >
-                              {slide.button2_text}
-                            </a>
-                          ) : (
-                            <Link 
-                              to={slide.button2_url}
-                              className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold rounded-full transition-all duration-300 border border-white/20 hover:border-white/40 shadow-glass"
-                            >
-                              {slide.button2_text}
-                            </Link>
-                          )
-                        )}
-                      </div>
-                    </div>
-
-                    {/* 3D Floating Element (Glowing & Better) */}
-                    <div className="hidden md:block md:col-span-4 relative group">
-                      {/* Aura Menyala */}
-                      <div className="absolute -inset-4 bg-gradient-to-r from-primary via-emerald-400 to-accent opacity-60 blur-[60px] rounded-full group-hover:opacity-80 transition-opacity duration-700 animate-pulse"></div>
+                <div className="container mx-auto px-6 md:px-12 pt-28 pb-20 relative h-full flex flex-col justify-center">
+                  {/* Floating Circular Element (Top Right) */}
+                  <div className="hidden md:flex absolute top-24 right-6 lg:right-12 z-20 group flex-col items-center justify-center w-36 h-36 lg:w-44 lg:h-44">
+                    {/* Aura Menyala */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-primary via-emerald-400 to-accent opacity-50 blur-[25px] rounded-full group-hover:opacity-80 transition-opacity duration-700 animate-pulse"></div>
+                    
+                    {/* Lingkaran Kaca (Glassmorphism) */}
+                    <div className="relative w-full h-full bg-white/10 backdrop-blur-xl border border-white/40 rounded-full shadow-glass flex flex-col items-center justify-center transform hover:scale-105 hover:rotate-3 transition-all duration-500 p-4">
+                      <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent rounded-full pointer-events-none"></div>
                       
-                      {/* Kartu Kaca (Glassmorphism) */}
-                      <div className="relative bg-white/10 backdrop-blur-2xl border border-white/40 p-10 rounded-3xl shadow-[0_0_40px_rgba(255,255,255,0.2)] transform rotate-3 hover:rotate-0 hover:scale-105 transition-all duration-500">
-                        {/* Efek Kilau Dalam */}
-                        <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent rounded-3xl pointer-events-none"></div>
-                        
-                        <div className="text-center relative z-10">
-                          <img 
-                            src="/logo-min5.png" 
-                            alt="Kemenag" 
-                            className="h-24 mx-auto mb-5 drop-shadow-[0_0_20px_rgba(255,255,255,0.6)] group-hover:scale-110 group-hover:drop-shadow-[0_0_30px_rgba(255,255,255,0.8)] transition-all duration-500" 
-                          />
-                          <h3 className="font-extrabold text-2xl mb-1 bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 via-yellow-200 to-yellow-400 drop-shadow-[0_2px_15px_rgba(253,224,71,0.6)]">
-                            Terakreditasi A
-                          </h3>
-                          <p className="text-white/90 font-medium tracking-widest uppercase text-xs mt-2 drop-shadow-md">
-                            Unggul & Berprestasi
-                          </p>
-                        </div>
-                      </div>
+                      <img 
+                        src="/logo-min5.png" 
+                        alt="Logo MIN 5" 
+                        className="h-10 lg:h-12 mb-2 drop-shadow-md group-hover:scale-110 transition-transform duration-500" 
+                      />
+                      <h3 className="font-extrabold text-xs lg:text-sm text-center leading-tight bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400 drop-shadow-sm">
+                        Terakreditasi A
+                      </h3>
+                      <p className="text-white/90 font-bold text-[8px] lg:text-[10px] mt-1 tracking-widest uppercase text-center px-1 leading-tight">
+                        Unggul & Berprestasi
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="max-w-3xl animate-in slide-in-from-bottom-10 fade-in duration-1000 fill-mode-both z-10 relative">
+                    <div className="inline-block px-4 py-1.5 bg-primary/20 backdrop-blur-md text-primary-light border border-primary/30 rounded-full text-sm font-bold mb-6 uppercase tracking-wider shadow-lg">
+                      Sekolah Berstandar Nasional
+                    </div>
+                    <h2 className="text-4xl md:text-5xl lg:text-7xl font-heading font-extrabold text-white mb-6 leading-tight drop-shadow-2xl">
+                      {slide.title}
+                    </h2>
+                    <p className="text-lg md:text-xl text-slate-200 mb-10 max-w-2xl drop-shadow-md">
+                      {slide.subtitle}
+                    </p>
+                    <div className="flex flex-wrap gap-4">
+                      {slide.button_text && slide.button_url && (
+                        slide.button_url.startsWith('http') ? (
+                          <a 
+                            href={slide.button_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-8 py-4 bg-gradient-to-r from-primary to-accent hover:from-primary-dark hover:to-primary text-white font-bold rounded-full transition-all duration-300 shadow-3d hover:shadow-3d-hover hover:-translate-y-1"
+                          >
+                            {slide.button_text}
+                          </a>
+                        ) : (
+                          <Link 
+                            to={slide.button_url}
+                            className="px-8 py-4 bg-gradient-to-r from-primary to-accent hover:from-primary-dark hover:to-primary text-white font-bold rounded-full transition-all duration-300 shadow-3d hover:shadow-3d-hover hover:-translate-y-1"
+                          >
+                            {slide.button_text}
+                          </Link>
+                        )
+                      )}
+                      {slide.button2_text && slide.button2_url && (
+                        slide.button2_url.startsWith('#') ? (
+                          <button 
+                            onClick={() => {
+                              const elementId = slide.button2_url.replace('#', '');
+                              const element = document.getElementById(elementId);
+                              if (element) {
+                                element.scrollIntoView({ behavior: 'smooth' });
+                              }
+                            }}
+                            className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold rounded-full transition-all duration-300 border border-white/20 hover:border-white/40 shadow-glass"
+                          >
+                            {slide.button2_text}
+                          </button>
+                        ) : slide.button2_url.startsWith('http') ? (
+                          <a 
+                            href={slide.button2_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold rounded-full transition-all duration-300 border border-white/20 hover:border-white/40 shadow-glass"
+                          >
+                            {slide.button2_text}
+                          </a>
+                        ) : (
+                          <Link 
+                            to={slide.button2_url}
+                            className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold rounded-full transition-all duration-300 border border-white/20 hover:border-white/40 shadow-glass"
+                          >
+                            {slide.button2_text}
+                          </Link>
+                        )
+                      )}
                     </div>
                   </div>
                 </div>

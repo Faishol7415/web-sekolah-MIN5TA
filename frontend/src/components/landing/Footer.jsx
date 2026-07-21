@@ -19,7 +19,7 @@ const Footer = () => {
             <div className="flex items-center gap-4 mb-8">
               <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center p-2 shadow-lg border border-primary/20">
                 <img 
-                  src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Kementerian_Agama_new_logo.png" 
+                  src="/logo-min5.png" 
                   alt="Logo Kemenag" 
                   className="w-full h-full object-contain drop-shadow-sm"
                 />

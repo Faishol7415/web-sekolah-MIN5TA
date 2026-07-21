@@ -144,7 +144,7 @@ const HeroSection = () => {
                         
                         <div className="text-center relative z-10">
                           <img 
-                            src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Kementerian_Agama_new_logo.png" 
+                            src="/logo-min5.png" 
                             alt="Kemenag" 
                             className="h-24 mx-auto mb-5 drop-shadow-[0_0_20px_rgba(255,255,255,0.6)] group-hover:scale-110 group-hover:drop-shadow-[0_0_30px_rgba(255,255,255,0.8)] transition-all duration-500" 
                           />

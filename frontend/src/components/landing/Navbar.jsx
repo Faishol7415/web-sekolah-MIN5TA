@@ -46,7 +46,7 @@ const Navbar = () => {
         {/* Logo */}
         <Link to="/" className="flex items-center gap-3">
           <img 
-            src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Kementerian_Agama_new_logo.png" 
+            src="/logo-min5.png" 
             alt="Logo Kemenag" 
             className="w-10 h-10 object-contain drop-shadow-md"
           />

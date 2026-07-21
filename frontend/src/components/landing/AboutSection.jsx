@@ -106,7 +106,7 @@ const AboutSection = ({ profile }) => {
             {/* Kemenag badge */}
             <div className="inline-flex items-center gap-3 mb-7 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3">
               <img
-                src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Kementerian_Agama_new_logo.png"
+                src="/logo-min5.png"
                 alt="Kemenag"
                 className="h-8 w-8 object-contain flex-shrink-0"
               />

@@ -33,13 +33,13 @@ const Footer = () => {
               Mewujudkan Generasi Islami, Berprestasi, Berakhlakul Karimah. Menjadi lembaga pendidikan dasar unggul di Kabupaten Tulungagung.
             </p>
             <div className="flex gap-4">
-              <a href="https://www.facebook.com/min5tulungagung?locale=id_ID" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300 hover:shadow-3d hover:-translate-y-1 border border-slate-700 hover:border-transparent">
+              <a href="https://www.facebook.com/min5tulungagung?locale=id_ID" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300 hover:shadow-3d hover:-translate-y-1 border border-slate-700 hover:border-transparent">
                 <FaFacebook size={20} />
               </a>
-              <a href="https://www.instagram.com/min5tulungagung/" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300 hover:shadow-3d hover:-translate-y-1 border border-slate-700 hover:border-transparent">
+              <a href="https://www.instagram.com/min5tulungagung/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300 hover:shadow-3d hover:-translate-y-1 border border-slate-700 hover:border-transparent">
                 <FaInstagram size={20} />
               </a>
-              <a href="https://www.youtube.com/@min5tulungagung673" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300 hover:shadow-3d hover:-translate-y-1 border border-slate-700 hover:border-transparent">
+              <a href="https://www.youtube.com/@min5tulungagung673" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300 hover:shadow-3d hover:-translate-y-1 border border-slate-700 hover:border-transparent">
                 <FaYoutube size={20} />
               </a>
             </div>

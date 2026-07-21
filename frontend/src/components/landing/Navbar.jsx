@@ -105,6 +105,7 @@ const Navbar = () => {
           <button 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="text-slate-800 dark:text-white p-1"
+            aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <HiX size={28} /> : <HiMenu size={28} />}
           </button>

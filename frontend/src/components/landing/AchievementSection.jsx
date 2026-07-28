@@ -121,6 +121,7 @@ const AchievementSection = () => {
                         src={imgUrl} 
                         alt={achievement.title} 
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        loading="lazy"
                       />
                       <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-primary-dark dark:text-primary font-bold px-3 py-1 rounded-full text-xs shadow-md">
                         {achievement.level}

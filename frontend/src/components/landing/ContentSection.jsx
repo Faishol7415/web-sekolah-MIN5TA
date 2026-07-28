@@ -28,6 +28,7 @@ const ContentSection = ({ profile }) => {
                   src={imageUrl} 
                   alt={profile.title} 
                   className="w-full h-auto max-h-[500px] object-cover"
+                  loading="lazy"
                 />
               </div>
             )}

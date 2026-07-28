@@ -51,7 +51,7 @@ const HeroSection = () => {
         modules={[Autoplay, EffectFade, Navigation, Pagination]}
         className="w-full h-full"
       >
-        {displaySlides.map((slide) => {
+        {displaySlides.map((slide, index) => {
           const imgUrl = getFileUrl(slide.image);
           return (
           <SwiperSlide key={slide.id}>
@@ -61,6 +61,8 @@ const HeroSection = () => {
                 src={imgUrl} 
                 alt={slide.title} 
                 className="w-full h-full object-cover"
+                loading={index === 0 ? "eager" : "lazy"}
+                fetchpriority={index === 0 ? "high" : "auto"}
               />
               
               {/* Overlay */}

@@ -1,14 +1,16 @@
+import { lazy, Suspense } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import api from '../../api/axios';
 import HeroSection from '../../components/landing/HeroSection';
-import VideoProfileSection from '../../components/landing/VideoProfileSection';
-import AboutSection from '../../components/landing/AboutSection';
-import StatsSection from '../../components/landing/StatsSection';
-import ProgramsSection from '../../components/landing/ProgramsSection';
-import LatestNewsSection from '../../components/landing/LatestNewsSection';
-import AchievementSection from '../../components/landing/AchievementSection';
-import ContentSection from '../../components/landing/ContentSection';
 import { Helmet } from 'react-helmet-async';
+
+const VideoProfileSection = lazy(() => import('../../components/landing/VideoProfileSection'));
+const AboutSection = lazy(() => import('../../components/landing/AboutSection'));
+const StatsSection = lazy(() => import('../../components/landing/StatsSection'));
+const ProgramsSection = lazy(() => import('../../components/landing/ProgramsSection'));
+const LatestNewsSection = lazy(() => import('../../components/landing/LatestNewsSection'));
+const AchievementSection = lazy(() => import('../../components/landing/AchievementSection'));
+const ContentSection = lazy(() => import('../../components/landing/ContentSection'));
 
 const Home = () => {
   const { data: profiles = [] } = useQuery({
@@ -34,18 +36,20 @@ const Home = () => {
       <div className="overflow-x-hidden w-full">
         <HeroSection />
         
-        {profiles.map(profile => {
-          if (!profile.is_active) return null;
-          if (profile.section === 'principal') return <AboutSection key={profile.id} profile={profile} />;
-          if (profile.section === 'video') return <VideoProfileSection key={profile.id} profile={profile} />;
-          if (profile.section === 'content') return <ContentSection key={profile.id} profile={profile} />;
-          return null;
-        })}
+        <Suspense fallback={<div className="py-20 flex justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div></div>}>
+          {profiles.map(profile => {
+            if (!profile.is_active) return null;
+            if (profile.section === 'principal') return <AboutSection key={profile.id} profile={profile} />;
+            if (profile.section === 'video') return <VideoProfileSection key={profile.id} profile={profile} />;
+            if (profile.section === 'content') return <ContentSection key={profile.id} profile={profile} />;
+            return null;
+          })}
 
-        <StatsSection />
-        <ProgramsSection />
-        <LatestNewsSection />
-        <AchievementSection />
+          <StatsSection />
+          <ProgramsSection />
+          <LatestNewsSection />
+          <AchievementSection />
+        </Suspense>
       </div>
     </>
   );

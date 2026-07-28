@@ -66,26 +66,28 @@ const HeroSection = () => {
               {/* Overlay */}
               <div className="absolute inset-0 bg-gradient-to-tr from-slate-900/90 via-slate-900/70 to-primary-dark/40 flex items-center">
                 <div className="container mx-auto px-6 md:px-12 pt-28 pb-20 relative h-full flex flex-col justify-center">
-                  {/* Floating Circular Element (Top Right) */}
-                  <div className="hidden md:flex absolute top-24 right-6 lg:right-12 z-20 group flex-col items-center justify-center w-36 h-36 lg:w-44 lg:h-44">
-                    {/* Aura Menyala */}
-                    <div className="absolute inset-0 bg-gradient-to-tr from-primary via-emerald-400 to-accent opacity-50 blur-[25px] rounded-full group-hover:opacity-80 transition-opacity duration-700 animate-pulse"></div>
+                  {/* Floating Circular Element (Top Right) - Modern 3D Minimalist */}
+                  <div className="hidden md:flex absolute top-24 right-6 lg:right-12 z-20 group flex-col items-center justify-center w-36 h-36 lg:w-44 lg:h-44 perspective-[1000px]">
+                    {/* 3D Shadow Ground */}
+                    <div className="absolute -bottom-6 w-24 h-4 bg-black/40 blur-xl rounded-[100%] transition-all duration-500 group-hover:w-20 group-hover:bg-black/20 group-hover:blur-2xl group-hover:translate-y-4"></div>
                     
-                    {/* Lingkaran Kaca (Glassmorphism) */}
-                    <div className="relative w-full h-full bg-white/10 backdrop-blur-xl border border-white/40 rounded-full shadow-glass flex flex-col items-center justify-center transform hover:scale-105 hover:rotate-3 transition-all duration-500 p-4">
-                      <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent rounded-full pointer-events-none"></div>
+                    {/* 3D Object */}
+                    <div className="relative w-full h-full bg-gradient-to-br from-[#ffffff] to-[#f1f5f9] rounded-[2.5rem] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.3),inset_0_8px_16px_rgba(255,255,255,1),inset_0_-8px_16px_rgba(0,0,0,0.08),0_0_0_1px_rgba(255,255,255,0.6)] flex flex-col items-center justify-center transform group-hover:-translate-y-4 group-hover:rotate-y-6 transition-all duration-500 ease-[cubic-bezier(0.25,0.8,0.25,1)] p-4 border border-white/40">
                       
+                      {/* Highlight reflection */}
+                      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/50 to-white/90 rounded-[2.5rem] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
                       <img 
                         src="/logo-min5.png" 
                         alt="Logo MIN 5" 
-                        className="h-10 lg:h-12 w-auto mb-2 drop-shadow-md group-hover:scale-110 transition-transform duration-500" 
+                        className="h-12 lg:h-14 w-auto mb-2 relative z-10 drop-shadow-[0_12px_12px_rgba(0,0,0,0.15)] group-hover:scale-110 group-hover:-translate-y-1 transition-transform duration-500" 
                         width="48"
                         height="48"
                       />
-                      <h3 className="font-extrabold text-xs lg:text-sm text-center leading-tight bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-400 drop-shadow-sm">
-                        Terakreditasi A
+                      <h3 className="font-extrabold text-xs lg:text-sm text-center leading-tight text-slate-800 relative z-10 drop-shadow-sm">
+                        Terakreditasi <span className="text-emerald-500 text-sm lg:text-base font-black">A</span>
                       </h3>
-                      <p className="text-white/90 font-bold text-[8px] lg:text-[10px] mt-1 tracking-widest uppercase text-center px-1 leading-tight">
+                      <p className="text-slate-500 font-bold text-[7px] lg:text-[8px] mt-1 tracking-[0.2em] uppercase text-center px-1 leading-tight relative z-10">
                         Unggul & Berprestasi
                       </p>
                     </div>

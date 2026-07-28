@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { FaPlay, FaYoutube } from 'react-icons/fa';
 
 const VideoProfileSection = ({ profile }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const getEmbedUrl = (url) => {
     if (!url) return '';
@@ -21,10 +23,23 @@ const VideoProfileSection = ({ profile }) => {
     return url;
   };
 
+  const getVideoId = (url) => {
+    if (!url) return null;
+    if (url.includes('youtu.be/')) return url.split('youtu.be/')[1].split('?')[0];
+    if (url.includes('youtube.com/embed/')) return url.split('youtube.com/embed/')[1].split('?')[0];
+    if (url.includes('youtube.com/watch')) {
+      try {
+        return new URL(url).searchParams.get('v');
+      } catch (e) { return null; }
+    }
+    return null;
+  };
+
   const title = profile?.title || "Mengenal Lebih Dekat MIN 5 Tulungagung";
   // Extract URL and auto-convert to embed format
   const rawUrl = profile?.content?.replace(/(<([^>]+)>)/gi, "").trim();
   const videoUrl = rawUrl ? getEmbedUrl(rawUrl) : "https://www.youtube.com/embed/dSWzm3bfmJk?rel=0";
+  const videoId = getVideoId(rawUrl || "https://www.youtube.com/watch?v=dSWzm3bfmJk");
 
   return (
     <section className="py-16 md:py-24 bg-white dark:bg-slate-900 relative overflow-hidden">
@@ -49,20 +64,46 @@ const VideoProfileSection = ({ profile }) => {
 
         <div className="max-w-5xl mx-auto">
           <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-primary/20 aspect-video group bg-slate-800 flex items-center justify-center">
-            {/* Embedded YouTube Video */}
-            {videoUrl.includes('http') ? (
+            {isPlaying ? (
+              /* Full YouTube iframe - only loaded after user clicks play */
               <iframe 
                 className="absolute inset-0 w-full h-full"
-                src={videoUrl} 
+                src={`${videoUrl}${videoUrl.includes('?') ? '&' : '?'}autoplay=1`}
                 title={title} 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                 allowFullScreen>
               </iframe>
             ) : (
-              <div className="text-white/50 flex flex-col items-center">
-                <FaYoutube className="text-6xl mb-4 text-red-500/50" />
-                <p>URL Video tidak valid. Silakan atur di CMS.</p>
-              </div>
+              /* YouTube Facade - lightweight thumbnail + play button */
+              <button
+                onClick={() => setIsPlaying(true)}
+                className="absolute inset-0 w-full h-full cursor-pointer group/play bg-slate-900"
+                aria-label={`Putar video: ${title}`}
+              >
+                {/* YouTube thumbnail */}
+                {videoId && (
+                  <img
+                    src={`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`}
+                    alt={title}
+                    className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover/play:opacity-100 transition-opacity duration-300"
+                    loading="lazy"
+                    width="480"
+                    height="360"
+                  />
+                )}
+                {/* Dark overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-black/10 group-hover/play:from-black/40 transition-all duration-300" />
+                {/* Play button */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-20 h-20 md:w-24 md:h-24 bg-red-600 rounded-full flex items-center justify-center shadow-2xl transform group-hover/play:scale-110 transition-transform duration-300">
+                    <FaPlay className="text-white text-2xl md:text-3xl ml-1" />
+                  </div>
+                </div>
+                {/* Label */}
+                <div className="absolute bottom-4 left-4 md:bottom-6 md:left-6">
+                  <p className="text-white/90 font-bold text-sm md:text-base drop-shadow-lg">Klik untuk memutar video</p>
+                </div>
+              </button>
             )}
           </div>
         </div>
@@ -72,3 +113,4 @@ const VideoProfileSection = ({ profile }) => {
 };
 
 export default VideoProfileSection;
+

@@ -1,5 +1,39 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaFacebook, FaInstagram, FaYoutube, FaMapMarkerAlt, FaPhone, FaEnvelope } from 'react-icons/fa';
+
+const MapFacade = () => {
+  const [showMap, setShowMap] = useState(false);
+
+  if (showMap) {
+    return (
+      <div className="w-full h-48 bg-slate-800 p-2 rounded-2xl overflow-hidden shadow-lg border border-slate-700">
+        <iframe 
+          src="https://maps.google.com/maps?q=MIN%205%20Tulungagung,%20Rejotangan&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+          width="100%" 
+          height="100%" 
+          style={{ border: 0, borderRadius: '0.75rem' }} 
+          allowFullScreen="" 
+          loading="lazy" 
+          referrerPolicy="no-referrer-when-downgrade"
+          title="Peta Lokasi MIN 5 Tulungagung"
+        ></iframe>
+      </div>
+    );
+  }
+
+  return (
+    <button
+      onClick={() => setShowMap(true)}
+      className="w-full h-48 bg-slate-800 p-2 rounded-2xl overflow-hidden shadow-lg border border-slate-700 hover:border-primary/50 transition-colors cursor-pointer flex flex-col items-center justify-center gap-3 group"
+      aria-label="Muat Peta Lokasi"
+    >
+      <FaMapMarkerAlt className="text-primary text-3xl group-hover:scale-110 transition-transform" />
+      <span className="text-slate-400 text-sm font-medium group-hover:text-white transition-colors">Klik untuk memuat peta</span>
+    </button>
+  );
+};
+
 
 const Footer = () => {
   return (
@@ -97,18 +131,7 @@ const Footer = () => {
               Peta Lokasi
               <span className="absolute -bottom-3 left-0 w-12 h-1 bg-gradient-to-r from-primary to-accent rounded-full"></span>
             </h3>
-            <div className="w-full h-48 bg-slate-800 p-2 rounded-2xl overflow-hidden shadow-lg border border-slate-700 hover:border-primary/50 transition-colors">
-              <iframe 
-                src="https://maps.google.com/maps?q=MIN%205%20Tulungagung,%20Rejotangan&t=&z=15&ie=UTF8&iwloc=&output=embed" 
-                width="100%" 
-                height="100%" 
-                style={{ border: 0, borderRadius: '0.75rem' }} 
-                allowFullScreen="" 
-                loading="lazy" 
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Peta Lokasi MIN 5 Tulungagung"
-              ></iframe>
-            </div>
+            <MapFacade />
           </div>
           
         </div>

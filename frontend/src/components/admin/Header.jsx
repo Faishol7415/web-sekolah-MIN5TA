@@ -23,6 +23,7 @@ const Header = ({ toggleSidebar }) => {
         <button 
           onClick={toggleSidebar}
           className="p-2 -ml-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors lg:hidden"
+          aria-label="Toggle sidebar"
         >
           <HiMenuAlt2 size={24} />
         </button>
@@ -39,7 +40,7 @@ const Header = ({ toggleSidebar }) => {
         <a 
           href="/" 
           target="_blank" 
-          rel="noreferrer"
+          rel="noopener noreferrer"
           className="flex items-center gap-1.5 px-3 py-1.5 md:px-4 md:py-2 text-[10px] md:text-xs font-bold bg-gradient-to-r from-primary to-accent text-white rounded-full transition-all duration-300 shadow-[0_4px_12px_rgba(16,185,129,0.2)] hover:shadow-[0_6px_16px_rgba(16,185,129,0.4)] hover:-translate-y-1 hover:scale-105 active:scale-95 group relative overflow-hidden"
         >
           {/* Shine effect overlay */}

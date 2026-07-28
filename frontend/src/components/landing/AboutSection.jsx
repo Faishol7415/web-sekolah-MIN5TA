@@ -46,6 +46,9 @@ const AboutSection = ({ profile }) => {
                     src={imageUrl}
                     alt={profile.title}
                     className="w-full aspect-[3/4] object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                    width="400"
+                    height="533"
                   />
                 ) : (
                   <div className="w-full aspect-[3/4] bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">

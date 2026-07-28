@@ -66,30 +66,32 @@ const HeroSection = () => {
               {/* Overlay */}
               <div className="absolute inset-0 bg-gradient-to-tr from-slate-900/90 via-slate-900/70 to-primary-dark/40 flex items-center">
                 <div className="container mx-auto px-6 md:px-12 pt-28 pb-20 relative h-full flex flex-col justify-center">
-                  {/* Floating Circular Element (Top Right) - Modern 3D Minimalist */}
-                  <div className="hidden md:flex absolute top-24 right-6 lg:right-12 z-20 group flex-col items-center justify-center w-36 h-36 lg:w-44 lg:h-44 perspective-[1000px]">
+                  {/* Floating Rectangular Badge (Top Right) - Modern 3D Minimalist */}
+                  <div className="hidden md:flex absolute top-24 right-6 lg:right-12 z-20 group perspective-[1000px]">
                     {/* 3D Shadow Ground */}
-                    <div className="absolute -bottom-6 w-24 h-4 bg-black/40 blur-xl rounded-[100%] transition-all duration-500 group-hover:w-20 group-hover:bg-black/20 group-hover:blur-2xl group-hover:translate-y-4"></div>
+                    <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-[85%] h-3 bg-black/30 blur-lg rounded-[100%] transition-all duration-500 group-hover:w-[70%] group-hover:bg-black/20 group-hover:blur-xl group-hover:translate-y-2"></div>
                     
                     {/* 3D Object */}
-                    <div className="relative w-full h-full bg-gradient-to-br from-[#ffffff] to-[#f1f5f9] rounded-[2.5rem] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.3),inset_0_8px_16px_rgba(255,255,255,1),inset_0_-8px_16px_rgba(0,0,0,0.08),0_0_0_1px_rgba(255,255,255,0.6)] flex flex-col items-center justify-center transform group-hover:-translate-y-4 group-hover:rotate-y-6 transition-all duration-500 ease-[cubic-bezier(0.25,0.8,0.25,1)] p-4 border border-white/40">
+                    <div className="relative bg-gradient-to-br from-[#ffffff] to-[#f1f5f9] rounded-2xl shadow-[0_15px_35px_-5px_rgba(0,0,0,0.25),inset_0_6px_12px_rgba(255,255,255,1),inset_0_-4px_8px_rgba(0,0,0,0.06),0_0_0_1px_rgba(255,255,255,0.6)] flex items-center gap-3 transform group-hover:-translate-y-3 group-hover:rotate-y-4 transition-all duration-500 ease-[cubic-bezier(0.25,0.8,0.25,1)] px-5 py-3 border border-white/40">
                       
                       {/* Highlight reflection */}
-                      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/50 to-white/90 rounded-[2.5rem] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/50 to-white/90 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                       <img 
                         src="/logo-min5.png" 
                         alt="Logo MIN 5" 
-                        className="h-12 lg:h-14 w-auto mb-2 relative z-10 drop-shadow-[0_12px_12px_rgba(0,0,0,0.15)] group-hover:scale-110 group-hover:-translate-y-1 transition-transform duration-500" 
+                        className="h-10 lg:h-12 w-auto relative z-10 drop-shadow-[0_8px_10px_rgba(0,0,0,0.12)] group-hover:scale-110 group-hover:-translate-y-1 transition-transform duration-500" 
                         width="48"
                         height="48"
                       />
-                      <h3 className="font-extrabold text-xs lg:text-sm text-center leading-tight text-slate-800 relative z-10 drop-shadow-sm">
-                        Terakreditasi <span className="text-emerald-500 text-sm lg:text-base font-black">A</span>
-                      </h3>
-                      <p className="text-slate-500 font-bold text-[7px] lg:text-[8px] mt-1 tracking-[0.2em] uppercase text-center px-1 leading-tight relative z-10">
-                        Unggul & Berprestasi
-                      </p>
+                      <div className="flex flex-col relative z-10">
+                        <h3 className="font-extrabold text-xs lg:text-sm leading-tight text-slate-800 drop-shadow-sm">
+                          Terakreditasi <span className="text-emerald-500 text-sm lg:text-base font-black">A</span>
+                        </h3>
+                        <p className="text-slate-500 font-bold text-[8px] lg:text-[9px] mt-0.5 tracking-[0.1em] uppercase leading-tight">
+                          Unggul & Berprestasi
+                        </p>
+                      </div>
                     </div>
                   </div>
 
